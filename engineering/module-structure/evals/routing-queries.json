@@ -1,0 +1,150 @@
+[
+  {
+    "query": "this route handler is a mess, it validates, queries db, sends emails, maps errors. help me clean it up",
+    "should_route": true,
+    "route": "modularity-review"
+  },
+  {
+    "query": "review this PR for module boundaries and coupling",
+    "should_route": true,
+    "route": "modularity-review",
+    "note": "PR structure review — Mode A. If the real question becomes 'should these be one unit?', hand off to cohesion-locality."
+  },
+  {
+    "query": "find places where our service layer is just pass-through wrappers",
+    "should_route": true,
+    "route": "modularity-review"
+  },
+  {
+    "query": "split this 900 line file",
+    "should_route": true,
+    "route": "cohesion-locality",
+    "note": "Split decision comes first; line count alone is never the reason."
+  },
+  {
+    "query": "make this React component easier to test without creating fake architecture",
+    "should_route": true,
+    "route": "modularity-review"
+  },
+  {
+    "query": "I keep editing the same date-formatting logic in five different files, what should I do",
+    "should_route": true,
+    "route": "modularity-review",
+    "note": "Change amplification / leakage. If the underlying question is ownership of a change axis, hand off to cohesion-locality."
+  },
+  {
+    "query": "scan this backend for refactoring candidates and give me a top recommendation",
+    "should_route": true,
+    "route": "modularity-review",
+    "note": "Mode B friction scan."
+  },
+  {
+    "query": "should this be one module or three? the boundaries feel wrong",
+    "should_route": true,
+    "route": "cohesion-locality"
+  },
+  {
+    "query": "explore candidate 2 and design the public API for it",
+    "should_route": true,
+    "route": "modularity-review",
+    "note": "Mode C — chosen candidate, not an open-ended workshop (that would be Matt)."
+  },
+  {
+    "query": "this util file has become a junk drawer, where should these functions live",
+    "should_route": true,
+    "route": "cohesion-locality"
+  },
+  {
+    "query": "this file is 1200 lines, split it",
+    "should_route": true,
+    "route": "cohesion-locality"
+  },
+  {
+    "query": "should we add Clean Architecture here?",
+    "should_route": true,
+    "route": "modularity-review",
+    "note": "Default answer is no unless it solves present complexity (non-negotiables 3-4)."
+  },
+  {
+    "query": "this module imports the db client everywhere",
+    "should_route": true,
+    "route": "modularity-review"
+  },
+  {
+    "query": "create an HTML architecture report for this package",
+    "should_route": true,
+    "route": "modularity-review",
+    "note": "Mode B with opt-in HTML report."
+  },
+  {
+    "query": "format this file with prettier",
+    "should_route": false,
+    "route": "none"
+  },
+  {
+    "query": "fix this null pointer bug",
+    "should_route": false,
+    "route": "none"
+  },
+  {
+    "query": "rename getUsr to getUser",
+    "should_route": false,
+    "route": "none"
+  },
+  {
+    "query": "add a loading spinner to this button",
+    "should_route": false,
+    "route": "none"
+  },
+  {
+    "query": "write unit tests for this pure function",
+    "should_route": false,
+    "route": "none"
+  },
+  {
+    "query": "why is this regex not matching trailing whitespace",
+    "should_route": false,
+    "route": "none"
+  },
+  {
+    "query": "bump the express dependency to the latest version",
+    "should_route": false,
+    "route": "none"
+  },
+  {
+    "query": "add a new column to the users table and a migration",
+    "should_route": false,
+    "route": "none"
+  },
+  {
+    "query": "translate these UI strings into French",
+    "should_route": false,
+    "route": "none"
+  },
+  {
+    "query": "the API returns 500 on empty body, what's the cause",
+    "should_route": false,
+    "route": "none"
+  },
+  {
+    "query": "fix typo in button label",
+    "should_route": false,
+    "route": "none"
+  },
+  {
+    "query": "add console logging to debug this request",
+    "should_route": false,
+    "route": "none"
+  },
+  {
+    "query": "upgrade vite to latest",
+    "should_route": false,
+    "route": "none"
+  },
+  {
+    "query": "write a SQL migration for user_status",
+    "should_route": false,
+    "route": "none",
+    "note": "Not structural by itself; would only route if the user also asks how the change reshapes module boundaries or public types."
+  }
+]

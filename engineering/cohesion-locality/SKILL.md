@@ -311,6 +311,8 @@ When reviewing architecture, ask:
 
 > **What future requirement would cause this code to change?**
 
+Run it as a thought experiment: pick one responsibility, simulate the change, and note how much unrelated code you must load to make it safely.
+
 If one unit has many unrelated answers, its responsibility may be too broad.
 
 For example, if `LLMService` must change because of:
@@ -361,6 +363,8 @@ A useful question during review is:
 
 > **If this operation fails, can an engineer identify the responsible conceptual area without understanding unrelated implementation details?**
 
+Run the companion simulation: pick one responsibility, picture it failing, and check whether you can name the owning area before reading any unrelated detail.
+
 If not, inspect the responsibility boundaries.
 
 ---
@@ -410,50 +414,9 @@ Metrics are signals for review, not automatic design decisions.
 
 ---
 
-## Review checklist
+## Review aids
 
-For each materially changed function, class, file, or module, ask:
-
-### Responsibility
-
-* Can its responsibility be described clearly in one short sentence?
-* Does that sentence describe one concept or several unrelated concepts?
-
-### Cohesion
-
-* Do its operations belong to the same purpose or invariant?
-* Do they use related state, knowledge, or collaborators?
-* Would they normally change together?
-
-### Change axis
-
-* What requirements could cause this unit to change?
-* Are there several independent reasons?
-
-### Abstraction
-
-* Does the code stay at a coherent abstraction level?
-* Is orchestration mixed with implementation details?
-
-### Ownership
-
-* Is knowledge implemented by the component that owns it?
-* Are protocol, persistence, domain, and infrastructure details located appropriately?
-
-### Locality
-
-* Can this code be modified without loading large amounts of unrelated context?
-* Can failures be narrowed to a clear conceptual boundary?
-
-### Extraction quality
-
-* Would an extracted unit have a meaningful name and responsibility?
-* Or would the extraction merely create indirection?
-
-### Coupling cost
-
-* Does splitting reduce conceptual coupling?
-* Or does it only introduce more interfaces, wrappers, files, and navigation?
+For a review pass, load `references/review-checklist.md`: the per-unit checklist (responsibility, cohesion, change axis, abstraction, ownership, locality, extraction quality, coupling cost) and the warning-signal heuristics. Signals are smells, not verdicts — semantic cohesion decides.
 
 ---
 
@@ -468,25 +431,6 @@ Then **Recommendations**: next concrete edits, ordered required → recommended 
 Do not report stylistic micro-splits, or require a refactor because a function is long, a file is large, or a unit has many parameters or methods. Do not propose abstractions without the responsibility or variation they isolate. Prefer a larger cohesive unit over fragmented indirection.
 
 ---
-
-## Practical heuristics
-
-These are warning signals, not automatic violations:
-
-* very long functions;
-* many branches;
-* many local variables;
-* many arguments;
-* many public methods;
-* generic `Manager` / `Utils` / `Helper` classes;
-* several unrelated injected dependencies;
-* several unrelated side effects;
-* multiple independently meaningful blocks separated by comments;
-* one function interacting directly with domain logic, database, HTTP, serialization, and telemetry;
-* a class whose method groups barely interact;
-* a change requiring edits across many unrelated files.
-
-Static-analysis complexity limits may be used to surface these cases, but semantic cohesion determines whether refactoring is appropriate.
 
 ---
 
