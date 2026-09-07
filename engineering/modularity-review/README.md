@@ -1,9 +1,7 @@
 # modularity-review
 
-First-party fork of [tyshkovskii/reviewing-code-modularity-skill](https://github.com/tyshkovskii/reviewing-code-modularity-skill) (MIT).
+First-party skill. Forked from [tyshkovskii/reviewing-code-modularity-skill](https://github.com/tyshkovskii/reviewing-code-modularity-skill) (MIT, see `LICENSE`) at upstream snapshot 2026-06-14 (upstream's last commit; the repo is inactive since).
 
-This copy owns **public-surface complexity** only. Stay-together / change-axis decisions live in `cohesion-locality`. Route both with `/module-structure`.
+Since 2026-09-08 this is a **full fork**: no upstream tracking, no porting workflow. The split with `cohesion-locality` (stay-together / change-axis decisions) is our own boundary, carved into `SKILL.md` and the `principles.md` / `red-flags.md` / `language.md` references. If upstream ever revives and looks worth absorbing, diff against the GitHub repo directly — there is no local clone anymore.
 
-Do not edit `~/.config/skillshare/skills/_reviewing-code-modularity-skill` — that is the tracked upstream. Update the clone with `skillshare update`, then port diffs here by hand.
-
-License: MIT (see `LICENSE`).
+This skill owns **public-surface complexity** only. Route both skills with `/module-structure`; the routing regression set lives in `module-structure/evals/routing-queries.json`.

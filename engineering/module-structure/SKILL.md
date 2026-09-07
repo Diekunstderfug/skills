@@ -32,4 +32,4 @@ Do not fire both from the same trigger sentence. Do not loop.
 
 ## Maintenance
 
-Upstream is `_reviewing-code-modularity-skill` (tracked copy — do not edit; update via `skillshare update`, then port diffs by hand, see `modularity-review/README.md`). The routing regression set lives in `evals/routing-queries.json` (ported from upstream `evals/trigger-queries.json`, annotated with the expected skill): every `should_route` query names exactly one route. Re-run it whenever the Pick table changes.
+Both skills are first-party (`modularity-review` is a full fork — provenance in its README; no upstream tracking). The routing regression set lives in `evals/routing-queries.json`: every `should_route` query names exactly one route. Re-run it whenever the Pick table changes.
