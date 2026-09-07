@@ -109,44 +109,6 @@
         "scripts/fill_pdf_form_with_annotations.py": "sha256:8a56e063a49ed53c0b0e1d312ecf8023af76816ed139486ec3b539873de202fd"
       }
     },
-    "engineering/find-skills": {
-      "source": "https://github.com/vercel-labs/skills.git/skills/find-skills",
-      "type": "github-subdir",
-      "group": "engineering",
-      "installed_at": "2026-07-18T14:49:07.588198678+08:00",
-      "repo_url": "https://github.com/vercel-labs/skills.git",
-      "subdir": "skills/find-skills",
-      "version": "777599e",
-      "tree_hash": "76a98a285cb0434f3d39e1a873823556330e398b",
-      "file_hashes": {
-        "SKILL.md": "sha256:c00eeea0e13e74fe4a9d84ba0a8542205a1b736d65f13134fe1a6647eb14976f"
-      }
-    },
-    "engineering/skillshare": {
-      "source": "github.com/runkids/skillshare/skills/skillshare",
-      "type": "github-subdir",
-      "group": "engineering",
-      "installed_at": "2026-09-03T14:47:01.847210195+08:00",
-      "repo_url": "https://github.com/runkids/skillshare.git",
-      "subdir": "skills/skillshare",
-      "version": "ab8e4d9",
-      "tree_hash": "0e4bbdc2c01d0082752e68d69d010b7341f07a9f",
-      "file_hashes": {
-        "SKILL.md": "sha256:afa4287719fc3c513e5d95e60554473440416a972499a7b9a6a25b08dcc5bc62",
-        "references/TROUBLESHOOTING.md": "sha256:14855dbd2f20ad7042941959f257c79f768d103e89e55d74d8c3b3d38f9ff5ee",
-        "references/audit.md": "sha256:85a31c32f17f39ce2baa5189a8004c6adec506e5fcf7d20378caa103b015fd5d",
-        "references/backup.md": "sha256:0d85d481fcb0f7ca88c31d1ca56d393a9ae18b8ac4f6c050edd62840cbd45257",
-        "references/extras.md": "sha256:c133ccb6a2da342fbf05919c27855cb1de124042f8654396e50ee82a2b7e40e1",
-        "references/init.md": "sha256:41d99a2a49f576e1a2354312856ccf730f8d19d4c8d35c592585d40bc2d14d82",
-        "references/install.md": "sha256:e59b9b1169fb72f063249f56b5fc7dee46bd3f9b9d2fe6d7d73b3319e14ff165",
-        "references/log.md": "sha256:406e85525f53f4deaa0f48bf8b3b53db3e032b99f5a0e926c84542d51b3a3625",
-        "references/status.md": "sha256:bbc4d801d9583ce79b848f861b07382157c8fb407e89e31358b0bf6acd34334f",
-        "references/sync.md": "sha256:00877a4a9c1ca0c02a8601aad694cadce61c3facbe57603d36c0ef937028f658",
-        "references/targets.md": "sha256:130b0b07b17a88d4bc09af0262a6b161421946f5442295dc5bc828f95226763e",
-        "references/trash.md": "sha256:fb94aa6b71d469fa8f6b5e728fcab531b6eb010a2092389b02eaaadf3ebc98cf",
-        "scripts/run.sh": "sha256:e434ebdb7d3ae0b37c00ddc36687bc975da9e766b8cb863f9aed9a624ebbdfa9"
-      }
-    },
     "research/gse-data": {
       "source": "/root/.codex/skills/gse-data",
       "type": "local",
@@ -206,6 +168,42 @@
         "agents/openai.yaml": "sha256:0a82103f8fd3e2f2288da993af5c4ef9889d6b7b4e937872794487aa4bdacf49",
         "references/brca-hrd-signature-map.md": "sha256:e1e10b468dc65526c1519936ed9b033c0958753a641526c941e865c3df051f5c",
         "scripts/audit_public_data_registry.py": "sha256:ded5f2d1aa1d5d73094d85762fe5c871a7c4dcde01134929d96c069018707847"
+      }
+    },
+    "find-skills": {
+      "source": "https://github.com/vercel-labs/skills.git/skills/find-skills",
+      "type": "github-subdir",
+      "installed_at": "2026-07-18T14:49:07.588198678+08:00",
+      "repo_url": "https://github.com/vercel-labs/skills.git",
+      "subdir": "skills/find-skills",
+      "version": "777599e",
+      "tree_hash": "76a98a285cb0434f3d39e1a873823556330e398b",
+      "file_hashes": {
+        "SKILL.md": "sha256:c00eeea0e13e74fe4a9d84ba0a8542205a1b736d65f13134fe1a6647eb14976f"
+      }
+    },
+    "skillshare": {
+      "source": "github.com/runkids/skillshare/skills/skillshare",
+      "type": "github-subdir",
+      "installed_at": "2026-09-03T14:47:01.847210195+08:00",
+      "repo_url": "https://github.com/runkids/skillshare.git",
+      "subdir": "skills/skillshare",
+      "version": "ab8e4d9",
+      "tree_hash": "0e4bbdc2c01d0082752e68d69d010b7341f07a9f",
+      "file_hashes": {
+        "SKILL.md": "sha256:afa4287719fc3c513e5d95e60554473440416a972499a7b9a6a25b08dcc5bc62",
+        "references/TROUBLESHOOTING.md": "sha256:14855dbd2f20ad7042941959f257c79f768d103e89e55d74d8c3b3d38f9ff5ee",
+        "references/audit.md": "sha256:85a31c32f17f39ce2baa5189a8004c6adec506e5fcf7d20378caa103b015fd5d",
+        "references/backup.md": "sha256:0d85d481fcb0f7ca88c31d1ca56d393a9ae18b8ac4f6c050edd62840cbd45257",
+        "references/extras.md": "sha256:c133ccb6a2da342fbf05919c27855cb1de124042f8654396e50ee82a2b7e40e1",
+        "references/init.md": "sha256:41d99a2a49f576e1a2354312856ccf730f8d19d4c8d35c592585d40bc2d14d82",
+        "references/install.md": "sha256:e59b9b1169fb72f063249f56b5fc7dee46bd3f9b9d2fe6d7d73b3319e14ff165",
+        "references/log.md": "sha256:406e85525f53f4deaa0f48bf8b3b53db3e032b99f5a0e926c84542d51b3a3625",
+        "references/status.md": "sha256:bbc4d801d9583ce79b848f861b07382157c8fb407e89e31358b0bf6acd34334f",
+        "references/sync.md": "sha256:00877a4a9c1ca0c02a8601aad694cadce61c3facbe57603d36c0ef937028f658",
+        "references/targets.md": "sha256:130b0b07b17a88d4bc09af0262a6b161421946f5442295dc5bc828f95226763e",
+        "references/trash.md": "sha256:fb94aa6b71d469fa8f6b5e728fcab531b6eb010a2092389b02eaaadf3ebc98cf",
+        "scripts/run.sh": "sha256:e434ebdb7d3ae0b37c00ddc36687bc975da9e766b8cb863f9aed9a624ebbdfa9"
       }
     }
   }
