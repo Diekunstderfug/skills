@@ -12,6 +12,28 @@
       "tracked": true,
       "branch": "main"
     },
+    "bioinformatics/parallel-bioinformatics-development": {
+      "source": "/root/.codex/skills/parallel-bioinformatics-development",
+      "type": "local",
+      "group": "bioinformatics",
+      "installed_at": "2026-09-08T01:11:22.229470677+08:00",
+      "file_hashes": {
+        "SKILL.md": "sha256:4ebccbf3bfbdbcf7aa524e3c37df6bb4da7464b7eb7c18fff515354594928659",
+        "agents/openai.yaml": "sha256:9a92d4906c8063e2b3374622801415c60d7ddc9ebfefb09717655deaf790602c"
+      }
+    },
+    "bioinformatics/tcga-gdc-data": {
+      "source": "/root/.codex/skills/tcga-gdc-data",
+      "type": "local",
+      "group": "bioinformatics",
+      "installed_at": "2026-09-08T01:11:22.470335268+08:00",
+      "file_hashes": {
+        "SKILL.md": "sha256:c3aecd79c4951936c0e919a1a2838e5374c0a66cb299bd5c7d2c32ba2ca5ce7c",
+        "agents/openai.yaml": "sha256:0a82103f8fd3e2f2288da993af5c4ef9889d6b7b4e937872794487aa4bdacf49",
+        "references/brca-hrd-signature-map.md": "sha256:e1e10b468dc65526c1519936ed9b033c0958753a641526c941e865c3df051f5c",
+        "scripts/audit_public_data_registry.py": "sha256:ded5f2d1aa1d5d73094d85762fe5c871a7c4dcde01134929d96c069018707847"
+      }
+    },
     "docx": {
       "source": "https://github.com/anthropics/skills.git/skills/docx",
       "type": "github-subdir",
@@ -164,6 +186,22 @@
         "references/trash.md": "sha256:fb94aa6b71d469fa8f6b5e728fcab531b6eb010a2092389b02eaaadf3ebc98cf",
         "scripts/run.sh": "sha256:e434ebdb7d3ae0b37c00ddc36687bc975da9e766b8cb863f9aed9a624ebbdfa9"
       }
+    },
+    "bioinformatics/gse-data": {
+      "source": "/root/.codex/skills/gse-data",
+      "type": "local",
+      "installed_at": "2026-09-08T01:08:41.051121885+08:00",
+      "file_hashes": {
+        "SKILL.md": "sha256:35d1d0f845087d896f481f274b0d1f2ac88b593de06a63e028b88c99eedab953",
+        "agents/openai.yaml": "sha256:c5f81aa67d32c6a97dd352d861aa3bb3a8bdb681078209ed09192bf6867fb693",
+        "references/gse-layout.md": "sha256:32d263c8022ec4dc0a6d827d0c45ba7a96f46ae28156f480e559ce38866d6083",
+        "scripts/europepmc_papers.py": "sha256:b0652ac4dddcde52341e28037d45c558e2f5e8e6c253825e11be5ca26f13c50e",
+        "scripts/geo_soft_references.py": "sha256:e64dbe2f8d8df0ad5197957046a69c94b8e3c9dc84bd2e2d8e45c5741dc92efc",
+        "scripts/geo_soft_sample_characteristics.py": "sha256:0a199c861b2925c9ef4a84dd24af2871fa0afa8a8f9990a29b56dd4499f612b3",
+        "scripts/geo_soft_samples.py": "sha256:5da454a2b1d876acbfc655b45f7e5dc264b80930f9e55900e65ce7e3a96d57d0",
+        "scripts/verify_pubmed_citation.py": "sha256:3a0b229108bcf8e73e37c42ce9661d7bb774aee5c9bae4a831d9cd439b9c1525"
+      },
+      "group": "bioinformatics"
     }
   }
 }

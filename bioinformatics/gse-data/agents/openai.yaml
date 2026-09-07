@@ -1,0 +1,4 @@
+interface:
+  display_name: "GSE Data"
+  short_description: "Download and document GSE datasets"
+  default_prompt: "Use $gse-data to download, verify, and document a GEO GSE dataset."

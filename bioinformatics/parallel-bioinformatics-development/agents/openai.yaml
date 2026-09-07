@@ -1,0 +1,7 @@
+interface:
+  display_name: "Parallel Bioinformatics Development"
+  short_description: "Judge safe bioinformatics analysis concurrency"
+  default_prompt: "Use $parallel-bioinformatics-development to extend a Superpowers plan with bioinformatics lane metadata and apply parallel dispatch where concurrency is beneficial and safe."
+
+policy:
+  allow_implicit_invocation: true

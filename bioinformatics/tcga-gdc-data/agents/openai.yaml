@@ -1,0 +1,4 @@
+interface:
+  display_name: "TCGA GDC Data"
+  short_description: "TCGA/GDC warehouse download workflow"
+  default_prompt: "Use $tcga-gdc-data to plan and verify a source-separated TCGA/GDC data download."
