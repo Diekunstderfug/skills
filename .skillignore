@@ -1,4 +1,7 @@
+# Hub default: sync engineering only.
+# _vendor is third-party. research is a separate SKU — opt in with .skillignore.local `!research`.
 _vendor
 nature-*
 scientific-agent-skills
 scientific-skills
+research
