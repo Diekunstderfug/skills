@@ -1,15 +1,14 @@
 ---
 name: cohesion-locality
 description: >-
-  Designs and reviews code for cohesion, responsibility, and locality:
-  keep together what changes together, separate independent change axes,
-  prefer cohesive units over small files or tiny functions. Use when
-  splitting files or classes, extracting helpers, refactoring, reviewing
-  SRP or SOLID, shrinking files, one-class-per-file, or when the user
-  mentions cohesion, locality, responsibility boundaries, over-splitting,
-  catch-all utils/helpers/common, Manager, or Helper classes. Also use
-  when the user asks to evaluate, review, inspect, or audit a unit:
-  report material findings and ranked improvement recommendations.
+  Decides what stays together: keep together what changes together,
+  separate independent change axes, prefer cohesive units over small
+  files or tiny functions. Use when splitting or joining units, naming
+  a change axis, over-splitting, shrinking files, one-class-per-file,
+  extracting a helper, catch-all utils/helpers/common, or Manager/Helper
+  classes. Do not use for PR structure review, shallow layers, leakage,
+  hard-to-test public surfaces, or architecture cosplay — those are
+  modularity-review.
 metadata:
   targets: [claude, cursor, codex, agents]
 ---
@@ -18,7 +17,7 @@ metadata:
 
 Language, runtime, and product domain do not change these rules. Examples below illustrate shape, not a required stack.
 
-Complement, do not duplicate: **this skill owns what stays together**. Interface depth (small surface, large behavior) is a different question.
+Complement, do not duplicate: **this skill owns what stays together**. Public-surface depth, leakage, and architecture cosplay are modularity-review. Maintained together; user-invoked router: `module-structure`.
 
 ## Apply
 
@@ -30,7 +29,7 @@ Before extracting, splitting a file, or introducing a class/interface/wrapper:
 4. Keep together behavior that shares purpose, knowledge, invariant, or change axis.
 5. If the extracted unit would be a one-use pass-through, do not extract.
 
-When the user asks to evaluate, review, inspect, or audit a unit, do both:
+When the user asks whether units should stay together or split, do both:
 
 1. Report findings that have real maintenance cost. Format: current responsibility → why mixed → proposed boundary → split or not.
 2. Give ranked improvement recommendations (next action, not a restatement of the diagnosis). Order: required, then recommended, then consider. Prefer delete leftover facade / move knowledge to its owner over new types, files, or wrappers.
@@ -38,6 +37,12 @@ When the user asks to evaluate, review, inspect, or audit a unit, do both:
 If there are no material findings, say so. Optional consider-level notes come after that, never as fake required work.
 
 Do not require a split because a function is long, a file is large, or a unit has many parameters or methods.
+
+After a cut is decided, if the user needs a smaller public surface, a leakage fix, or a behavior-preserving implementation, continue with modularity-review Mode C or D. Do not design ports or rewrite layers here.
+
+Do not merge units that only look similar if they sit on independent change axes. Duplication often beats a wrong join.
+
+Do not treat temporal phases (`init` / `process` / `finish`) as a responsibility. Group by the concept or axis that changes, not by execution order.
 
 ---
 
@@ -454,7 +459,7 @@ For each materially changed function, class, file, or module, ask:
 
 ## Review findings
 
-On evaluate / review / inspect / audit, report material findings **and** ranked recommendations.
+On a stay-together / split / join question, report material findings **and** ranked recommendations.
 
 Each finding: current responsibility → why mixed → proposed boundary → split or not (required / recommended / consider).
 
