@@ -12,20 +12,20 @@
       "tracked": true,
       "branch": "main"
     },
-    "bioinformatics/parallel-bioinformatics-development": {
+    "research/parallel-bioinformatics-development": {
       "source": "/root/.codex/skills/parallel-bioinformatics-development",
       "type": "local",
-      "group": "bioinformatics",
+      "group": "research",
       "installed_at": "2026-09-08T01:11:22.229470677+08:00",
       "file_hashes": {
         "SKILL.md": "sha256:4ebccbf3bfbdbcf7aa524e3c37df6bb4da7464b7eb7c18fff515354594928659",
         "agents/openai.yaml": "sha256:9a92d4906c8063e2b3374622801415c60d7ddc9ebfefb09717655deaf790602c"
       }
     },
-    "bioinformatics/tcga-gdc-data": {
+    "research/tcga-gdc-data": {
       "source": "/root/.codex/skills/tcga-gdc-data",
       "type": "local",
-      "group": "bioinformatics",
+      "group": "research",
       "installed_at": "2026-09-08T01:11:22.470335268+08:00",
       "file_hashes": {
         "SKILL.md": "sha256:c3aecd79c4951936c0e919a1a2838e5374c0a66cb299bd5c7d2c32ba2ca5ce7c",
@@ -34,7 +34,7 @@
         "scripts/audit_public_data_registry.py": "sha256:ded5f2d1aa1d5d73094d85762fe5c871a7c4dcde01134929d96c069018707847"
       }
     },
-    "docx": {
+    "_vendor/docx": {
       "source": "https://github.com/anthropics/skills.git/skills/docx",
       "type": "github-subdir",
       "installed_at": "2026-07-18T14:49:04.198571445+08:00",
@@ -104,9 +104,10 @@
         "scripts/templates/commentsExtensible.xml": "sha256:bad10b3283e6ad6e7ef6d1ca5169683721ed690ee331282c65df04017e080631",
         "scripts/templates/commentsIds.xml": "sha256:db20f9616e004ec42ef736e80c2384e45db0f8d1194d31dc8b37c7d6ecdd6420",
         "scripts/templates/people.xml": "sha256:056f63aa1197fd8c9dda980c9f1b9ff016fd5fa4a462df8aec5f384f39d23e37"
-      }
+      },
+      "group": "_vendor"
     },
-    "find-skills": {
+    "engineering/find-skills": {
       "source": "https://github.com/vercel-labs/skills.git/skills/find-skills",
       "type": "github-subdir",
       "installed_at": "2026-07-18T14:49:07.588198678+08:00",
@@ -116,9 +117,10 @@
       "tree_hash": "76a98a285cb0434f3d39e1a873823556330e398b",
       "file_hashes": {
         "SKILL.md": "sha256:c00eeea0e13e74fe4a9d84ba0a8542205a1b736d65f13134fe1a6647eb14976f"
-      }
+      },
+      "group": "engineering"
     },
-    "pdf": {
+    "_vendor/pdf": {
       "source": "https://github.com/anthropics/skills.git/skills/pdf",
       "type": "github-subdir",
       "installed_at": "2026-07-18T14:49:04.246068021+08:00",
@@ -139,9 +141,10 @@
         "scripts/extract_form_structure.py": "sha256:6814e3fe8f78c2b16d766c132b5a727ff7a31b71d76a7d46bd6e40fe50bc97c5",
         "scripts/fill_fillable_fields.py": "sha256:d140872c2e92e41b1e05370ae8d270c5b7f5ebdf55d9905f03bc974a9c708ff5",
         "scripts/fill_pdf_form_with_annotations.py": "sha256:8a56e063a49ed53c0b0e1d312ecf8023af76816ed139486ec3b539873de202fd"
-      }
+      },
+      "group": "_vendor"
     },
-    "scientific-visualization": {
+    "research/scientific-visualization": {
       "source": "https://github.com/K-Dense-AI/scientific-agent-skills.git/skills/scientific-visualization",
       "type": "github-subdir",
       "installed_at": "2026-07-18T14:49:19.811503647+08:00",
@@ -161,9 +164,10 @@
         "references/publication_guidelines.md": "sha256:c8430dfe7d374edc771c55a0d9c6e1f07ab803f16321d21941835e93944da2d1",
         "scripts/figure_export.py": "sha256:542f604c2a4dc642c055b24ef26b9e9e808616a33fde0cd2154c975dc83318d0",
         "scripts/style_presets.py": "sha256:3a4163c6aaaf6792665cf890ab497a2b5070c0ed0adfa524fcaee5262a3f1792"
-      }
+      },
+      "group": "research"
     },
-    "skillshare": {
+    "engineering/skillshare": {
       "source": "github.com/runkids/skillshare/skills/skillshare",
       "type": "github-subdir",
       "installed_at": "2026-09-03T14:47:01.847210195+08:00",
@@ -185,9 +189,10 @@
         "references/targets.md": "sha256:130b0b07b17a88d4bc09af0262a6b161421946f5442295dc5bc828f95226763e",
         "references/trash.md": "sha256:fb94aa6b71d469fa8f6b5e728fcab531b6eb010a2092389b02eaaadf3ebc98cf",
         "scripts/run.sh": "sha256:e434ebdb7d3ae0b37c00ddc36687bc975da9e766b8cb863f9aed9a624ebbdfa9"
-      }
+      },
+      "group": "engineering"
     },
-    "bioinformatics/gse-data": {
+    "research/gse-data": {
       "source": "/root/.codex/skills/gse-data",
       "type": "local",
       "installed_at": "2026-09-08T01:08:41.051121885+08:00",
@@ -201,7 +206,7 @@
         "scripts/geo_soft_samples.py": "sha256:5da454a2b1d876acbfc655b45f7e5dc264b80930f9e55900e65ce7e3a96d57d0",
         "scripts/verify_pubmed_citation.py": "sha256:3a0b229108bcf8e73e37c42ce9661d7bb774aee5c9bae4a831d9cd439b9c1525"
       },
-      "group": "bioinformatics"
+      "group": "research"
     }
   }
 }
