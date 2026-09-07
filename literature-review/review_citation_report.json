@@ -1,0 +1,198 @@
+{
+  "total_dois": 19,
+  "verified": [
+    "10.1158/0008-5472.CAN-23-0628",
+    "10.1186/s40364-025-00740-y",
+    "10.1158/1538-7445.am2025-1492",
+    "10.1200/jco.2025.43.16_suppl.e17591",
+    "10.1200/jco.2025.43.16_suppl.1012",
+    "10.1158/1557-3265.sabcs24-p1-01-18",
+    "10.1038/s41698-024-00706-7",
+    "10.1016/j.ejca.2025.116035",
+    "10.1016/j.canlet.2024.216820",
+    "10.3390/biomedicines13040958",
+    "10.1158/1538-7445.am2025-lb014",
+    "10.1158/1557-3265.sabcs24-p3-10-19",
+    "10.1186/s13000-023-01431-8",
+    "10.3390/cells15030277",
+    "10.1186/s40364-022-00427-8",
+    "10.1038/s43856-026-01387-y",
+    "10.1200/jco.2025.43.16_suppl.3074",
+    "10.1200/jco.2022.40.28_suppl.380",
+    "10.1093/oncolo/oyaf100"
+  ],
+  "failed": [],
+  "metadata": {
+    "10.1158/0008-5472.CAN-23-0628": {
+      "title": "BRCAness, Homologous Recombination Deficiencies, and Synthetic Lethality",
+      "authors": "Murai, J., Pommier, Y.",
+      "year": "2023",
+      "journal": "Cancer Research",
+      "volume": "83",
+      "pages": "1173-1174",
+      "doi": "10.1158/0008-5472.CAN-23-0628"
+    },
+    "10.1186/s40364-025-00740-y": {
+      "title": "Homologous recombination deficiency (HRD) testing landscape: clinical applications and technical validation for routine diagnostics",
+      "authors": "Witz, A., Dardare, J., Betz, M., et al.",
+      "year": "2025",
+      "journal": "Biomarker Research",
+      "volume": "13",
+      "pages": "",
+      "doi": "10.1186/s40364-025-00740-y"
+    },
+    "10.1158/1538-7445.am2025-1492": {
+      "title": "Abstract 1492: Clinical validation on the PAOLA-1/ENGOT-ov25 cohort of HRD calculation performed with the OncoDEEP\u00ae kit comprehensive genomic panel",
+      "authors": "Trautmann, M., Lef\u00e8vre, S., Sauvage, S., et al.",
+      "year": "2025",
+      "journal": "Cancer Research",
+      "volume": "85",
+      "pages": "1492-1492",
+      "doi": "10.1158/1538-7445.am2025-1492"
+    },
+    "10.1200/jco.2025.43.16_suppl.e17591": {
+      "title": "Clinical validation of different HRD assays in high-grade serous ovarian cancer in Greek population.",
+      "authors": "Andrikopoulou, A., Svarna, A., Papassotiriou, I., et al.",
+      "year": "2025",
+      "journal": "Journal of Clinical Oncology",
+      "volume": "43",
+      "pages": "",
+      "doi": "10.1200/jco.2025.43.16_suppl.e17591"
+    },
+    "10.1200/jco.2025.43.16_suppl.1012": {
+      "title": "Assessment of ctDNA somatic homologous recombination deficiency (HRD) in triple-negative breast cancer (TNBC) from SWOG S1416 trial.",
+      "authors": "Stecklein, S., Barlow, W., Tsai, J., et al.",
+      "year": "2025",
+      "journal": "Journal of Clinical Oncology",
+      "volume": "43",
+      "pages": "1012-1012",
+      "doi": "10.1200/jco.2025.43.16_suppl.1012"
+    },
+    "10.1158/1557-3265.sabcs24-p1-01-18": {
+      "title": "Abstract P1-01-18: Prevalence of functional HRD by the RAD51 assay: a pooled analysis with 367 patients from BRCA-associated tumor types",
+      "authors": "Villacampa, G., Domenech, H., Viaplana, C., et al.",
+      "year": "2025",
+      "journal": "Clinical Cancer Research",
+      "volume": "31",
+      "pages": "P1-01-18-P1-01-18",
+      "doi": "10.1158/1557-3265.sabcs24-p1-01-18"
+    },
+    "10.1038/s41698-024-00706-7": {
+      "title": "Prediction of homologous recombination deficiency identifies colorectal tumors sensitive to PARP inhibition",
+      "authors": "Corti, G., Buzo, K., Berrino, E., et al.",
+      "year": "2024",
+      "journal": "npj Precision Oncology",
+      "volume": "8",
+      "pages": "",
+      "doi": "10.1038/s41698-024-00706-7"
+    },
+    "10.1016/j.ejca.2025.116035": {
+      "title": "Genomic pathway alterations and their prognostic impact in biliary tract cancer: Insights from a multinational cohort treated with cisplatin, gemcitabine, and durvalumab",
+      "authors": "Pirrone, C., Malapelle, U., Pepe, F., et al.",
+      "year": "2025",
+      "journal": "European Journal of Cancer",
+      "volume": "230",
+      "pages": "116035",
+      "doi": "10.1016/j.ejca.2025.116035"
+    },
+    "10.1016/j.canlet.2024.216820": {
+      "title": "CDK inhibition results in pharmacologic BRCAness increasing sensitivity to olaparib in BRCA1-WT and olaparib resistant in Triple Negative Breast Cancer",
+      "authors": "Orhan, E., Velazquez, C., Tabet, I., et al.",
+      "year": "2024",
+      "journal": "Cancer Letters",
+      "volume": "589",
+      "pages": "216820",
+      "doi": "10.1016/j.canlet.2024.216820"
+    },
+    "10.3390/biomedicines13040958": {
+      "title": "Ivosidenib Confers BRCAness Phenotype and Synthetic Lethality to Poly (ADP-Ribose) Polymerase Inhibition in BRCA1/2-Proficient Cancer Cells",
+      "authors": "Zhou, D., Liu, W., Zhang, Y., et al.",
+      "year": "2025",
+      "journal": "Biomedicines",
+      "volume": "13",
+      "pages": "958",
+      "doi": "10.3390/biomedicines13040958"
+    },
+    "10.1158/1538-7445.am2025-lb014": {
+      "title": "Abstract LB014: HSK46256, a highly selective and brain penetrable PARP1 inhibitor for the treatment of HRD cancers",
+      "authors": "Li, F., Group, H., Chen, L., et al.",
+      "year": "2025",
+      "journal": "Cancer Research",
+      "volume": "85",
+      "pages": "LB014-LB014",
+      "doi": "10.1158/1538-7445.am2025-lb014"
+    },
+    "10.1158/1557-3265.sabcs24-p3-10-19": {
+      "title": "Abstract P3-10-19: Phase II Trial of Pembrolizumab in Combination with Olaparib in Advanced Breast Cancer with BRCA-mutation or Homologous Recombination Defect (HRD)",
+      "authors": "Bitar, J., Mita, M., McAndrew, P., et al.",
+      "year": "2025",
+      "journal": "Clinical Cancer Research",
+      "volume": "31",
+      "pages": "P3-10-19-P3-10-19",
+      "doi": "10.1158/1557-3265.sabcs24-p3-10-19"
+    },
+    "10.1186/s13000-023-01431-8": {
+      "title": "A novel targeted NGS panel identifies numerous homologous recombination deficiency (HRD)-associated gene mutations in addition to known BRCA mutations",
+      "authors": "Vogel, A., Haupts, A., Kloth, M., et al.",
+      "year": "2024",
+      "journal": "Diagnostic Pathology",
+      "volume": "19",
+      "pages": "",
+      "doi": "10.1186/s13000-023-01431-8"
+    },
+    "10.3390/cells15030277": {
+      "title": "The Effects of BRCA1 and BRCA2 Promoter Methylation on Clinicopathological Characteristics and Clinical Outcomes in HGSOC",
+      "authors": "\u017divi\u0107, K., Boljevi\u0107, I., Nedeljkovi\u0107, M., et al.",
+      "year": "2026",
+      "journal": "Cells",
+      "volume": "15",
+      "pages": "277",
+      "doi": "10.3390/cells15030277"
+    },
+    "10.1186/s40364-022-00427-8": {
+      "title": "Development of a novel BRCAness score that predicts response to PARP inhibitors",
+      "authors": "Oshi, M., Gandhi, S., Wu, R., et al.",
+      "year": "2022",
+      "journal": "Biomarker Research",
+      "volume": "10",
+      "pages": "",
+      "doi": "10.1186/s40364-022-00427-8"
+    },
+    "10.1038/s43856-026-01387-y": {
+      "title": "IdentifiHR predicts homologous recombination deficiency in high-grade serous ovarian carcinoma using gene expression",
+      "authors": "Weir, A., Lee, S., Li, M., et al.",
+      "year": "2026",
+      "journal": "Communications Medicine",
+      "volume": "6",
+      "pages": "",
+      "doi": "10.1038/s43856-026-01387-y"
+    },
+    "10.1200/jco.2025.43.16_suppl.3074": {
+      "title": "HRD status prediction in patients with advanced breast, prostate, ovarian and pancreatic cancers in a liquid biopsy assay.",
+      "authors": "Safabakhsh, P., Tolkunov, D., Overstreet, B., et al.",
+      "year": "2025",
+      "journal": "Journal of Clinical Oncology",
+      "volume": "43",
+      "pages": "3074-3074",
+      "doi": "10.1200/jco.2025.43.16_suppl.3074"
+    },
+    "10.1200/jco.2022.40.28_suppl.380": {
+      "title": "Barriers to BRCA, HRD, and HRRm testing despite increased utilization: U.S. physician survey results.",
+      "authors": "Szamreta, E., Ning, N., Jackson, B., et al.",
+      "year": "2022",
+      "journal": "Journal of Clinical Oncology",
+      "volume": "40",
+      "pages": "380-380",
+      "doi": "10.1200/jco.2022.40.28_suppl.380"
+    },
+    "10.1093/oncolo/oyaf100": {
+      "title": "Treatment, outcomes, and resource utilization among patients with metastatic breast and advanced epithelial ovarian cancer, by BRCA1/2 and HRD status",
+      "authors": "Cruz, G., Kane, K., Matsuno, R., et al.",
+      "year": "2025",
+      "journal": "The Oncologist",
+      "volume": "30",
+      "pages": "",
+      "doi": "10.1093/oncolo/oyaf100"
+    }
+  }
+}

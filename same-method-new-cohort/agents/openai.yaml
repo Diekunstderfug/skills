@@ -1,0 +1,4 @@
+interface:
+  display_name: "Same Method New Cohort"
+  short_description: "Stage and adapt a reviewed R workflow"
+  default_prompt: "Use $same-method-new-cohort to copy this reviewed R workflow into temporary staging, adapt only the new-cohort boundary, validate it, and promote it to the target."
