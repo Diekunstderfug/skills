@@ -19,37 +19,41 @@ metadata:
 
 This skill owns **complexity at the public surface**: depth, leakage, dependency direction, testable seams, and architecture cosplay. Maintained with `cohesion-locality` (what stays together). User-invoked router: `module-structure`.
 
-Complement, do not duplicate: if the live question is "should these stay together or split?", **stop and use cohesion-locality**. Do not invent a cut here.
+Complement, do not duplicate: if the live question is "should these stay together or split?", consult cohesion-locality for that decision, then resume any remaining requested work. Treat unverified cuts as hypotheses until ownership has been examined. When the optional router is installed, follow its handoff and continuation rules in `../module-structure/SKILL.md`.
+
+This skill can run independently; the router is optional. If a complementary skill is unavailable, finish work within this skill's scope, identify any remaining limitation, and do not claim to have invoked the missing skill. Preserve the user's review/design/implementation intent and existing authorization across any continuation.
 
 ## Goal
 
-Reduce code complexity without architecture cosplay. Prefer a deep module: small, stable public surface, large hidden payoff, clear dependency direction. Use the smallest restructuring that makes code easier to understand, change, and test — never more.
+Reduce code complexity without architecture cosplay. Prefer a deep module: small, stable public surface, large hidden payoff, clear dependency direction. Prefer the smallest restructuring that materially improves understanding, change, and testing; consider broader designs when the task warrants them.
 
-## Non-negotiables
+## Principles and boundaries
 
-1. Inspect the actual code and nearby conventions before recommending structure. Advice given sight-unseen is usually wrong.
-2. If ownership or change axes are unclear — several independent reasons to change, or no one-sentence responsibility — **stop**. Use cohesion-locality. Do not split by line count, and do not invent a boundary here.
-3. Do not create Clean Architecture, DDD, hexagonal layering, SOLID-heavy layering, repositories, factories, adapters, dependency injection, ports, or interfaces unless they solve present complexity in this codebase.
-4. Do not introduce interfaces, factories, or DI for a single implementation unless there is real test-seam or coupling pressure.
-5. Do not propose a broad rewrite when a local restructuring solves the problem.
-6. Preserve behavior unless the user explicitly asks for a behavior change.
-7. Do not create or edit ADRs or other docs unless the user asks.
-8. Default fix: move knowledge to its owner or delete a leftover facade. Do not add types, files, or wrappers as the first move.
+Use these as defaults, adjusting depth and sequence to the user's task. Exploration may compare speculative architectures or broader changes; distinguish those ideas from evidence-backed recommendations for this codebase.
+
+- Inspect relevant code, callers, and conventions to ground findings. When code is unavailable, offer conditional guidance and identify assumptions instead of claiming a verified defect.
+- If ownership is unclear, use cohesion-locality when available to test the boundary hypothesis, then continue. A one-sentence responsibility is a clue, not a gate that stops useful work.
+- Prefer abstractions that hide meaningful knowledge or relieve coupling and testing pressure. Layers, interfaces, DI, and thin adapters are options whose value depends on their contract and cost, not on implementation count alone.
+- Consider moving knowledge to its owner or removing a redundant facade before adding machinery. Prefer a local solution when it solves the problem; broader alternatives are useful when the evidence or requested exploration warrants them.
+
+Respect user scope and applicable hard project rules. Review and design do not authorize implementation or unrelated documentation changes. Preserve behavior and public contracts unless their change is authorized. Existing authorization survives internal continuation. Report evidence and validation honestly.
 
 ## Core vocabulary
 
 When terminology matters or you produce a report, use: module, public surface, implementation, depth, shallow module, seam, leakage, change amplification, architecture cosplay, recommendation strength. Definitions in `references/language.md`. Prefer the repo's own word when it has one.
 
-**Responsibility**, **cohesion**, and **change axis** are defined and decided by cohesion-locality. Here they are only a stop condition.
+**Responsibility**, **cohesion**, and **change axis** are defined and decided by cohesion-locality. Here uncertainty about them triggers a boundary consultation, not termination of the task.
 
-## Before any mode
+## Orient the review
 
-1. If the user is asking whether to split, join, or keep units together, or names a change axis: use cohesion-locality first. Resume here only after that cut is decided (Mode C/D).
+Use the following questions as a starting point, not a fixed inspection sequence.
+
+1. For a live split/join decision, start with cohesion-locality when available. Resume after that boundary is decided, preserving the requested review (A/B), design (C), or implementation (D).
 2. Inspect first: folder layout, naming, import direction, nearby similar features, test style, public exports, and existing error/validation conventions.
-3. For each module in scope, ask: What does it own? What should it hide? What is its public surface? Who imports it? What does it import? Can it be tested without booting the whole app? If "what does it own?" has several unrelated answers, stop and use cohesion-locality.
+3. For relevant boundaries, consider: What does it own? What should it hide? What is its public surface? Who imports it? What does it import? Can it be tested without booting the whole app? If "what does it own?" has several unrelated answers, consult cohesion-locality and resume with the ownership decision.
 4. Read project context when a recommendation is broad or moves code across modules — see `references/decision-records.md`.
 
-Judge complexity by whether future changes get harder: change amplification, cognitive load, unknown unknowns, obscurity. Load `references/red-flags.md` or `references/principles.md` by section — do not recite them. Skip stay-together / change-axis / temporal-decomposition sections; those are cohesion-locality.
+Judge complexity by whether future changes get harder: change amplification, cognitive load, unknown unknowns, obscurity. Load `references/red-flags.md` or `references/principles.md` by section — do not recite them. For deeper boundary reasoning, prefer cohesion-locality; brief boundary observations may remain in the same review.
 
 ## Mode selection
 
@@ -60,34 +64,34 @@ Judge complexity by whether future changes get harder: change amplification, cog
 | **C — Candidate deepening** | A candidate is chosen, or the user asks to design a public surface. | Owns/hides/surface + design comparison. |
 | **D — Implementation** | The user asks the agent to actually refactor. | Smallest behavior-preserving change + validation. |
 
-Default to the smallest mode that fits. Modes chain when the task is broad: B → C → D. After cohesion-locality decides a split or join, enter at C or D.
+Default to the smallest mode that fits. Modes chain when the task is broad: B → C → D. After cohesion-locality decides split, join, or keep, resume the mode required by the original request; a review does not become implementation.
 
 ### Mode A: Fast modularity review
 
-Inspect the code and report findings ordered by risk. For each finding:
+Inspect the code and report findings ordered by risk. A useful finding connects the following; adapt the format to the task:
 
-- **Severity** — high (change amplification or hidden bugs now: leaked decisions, reversed dependencies, side-effectful imports), medium (will bite as the feature grows: shallow layers, overexposed surface), or low (safe to defer: naming, small duplication, cosmetic).
+- **Impact and confidence** — tie priority to an observed cost, demonstrated risk, or applicable contract. A possible future problem is an exploration hypothesis, not automatically a medium-severity defect. Keep confidence distinct from impact when evidence is incomplete.
 - **File/line** if available.
-- **Why it increases complexity** — name the mechanism (leakage, shallow module, reversed dependency, architecture cosplay). If the mechanism is mixed change axes or "should this be one unit?", do not score it — hand off to cohesion-locality.
+- **Why it increases complexity** — name the mechanism (leakage, shallow module, reversed dependency, architecture cosplay). If the mechanism is mixed change axes or "should this be one unit?", consult cohesion-locality, then include its material boundary finding in the same review without inventing a surface-complexity score.
 - **Smallest useful fix** — behavior-preserving; prefer move-to-owner or delete facade.
 - **What not to change** — only when there is a real over-refactor risk.
 
-Do not use candidate cards and do not write an HTML report in this mode unless the user asks. Concise findings are the product.
+Concise findings are the default. Use another format when requested or when it materially improves the explanation; HTML is opt-in.
 
 ### Mode B: Architecture friction scan
 
 Explore the area for surface/leakage/shallow friction, then produce a candidate report using `references/review-report.md`:
 
-- A single **top recommendation** first.
-- **1–4 candidates**, each with: current friction (grounded in real code), why complexity increases, smallest useful fix, before/after sketch, testing impact, what not to change, and recommendation strength (Strong | Worth exploring | Speculative).
+- Lead with the most useful conclusion, including when no material change is warranted.
+- Usually a few worthwhile candidates, connecting: current friction (grounded in real code), why complexity increases, smallest useful fix, before/after sketch, testing impact, what not to change, and recommendation strength (Strong | Worth exploring | Speculative).
 
-If a candidate's only problem is stacked change axes, drop it from this report and name cohesion-locality instead.
+If a candidate's problem is stacked change axes, consult cohesion-locality and carry its material finding into the requested report. Continue assessing other candidates; do not silently drop the boundary issue.
 
-Markdown is the default. HTML is opt-in. After presenting candidates, ask which one to explore, unless the user already requested implementation.
+Markdown is the default. HTML is opt-in. If the request ends at a scan, present the recommendation. If it includes further design or implementation, continue within that scope; ask only when a consequential unresolved choice needs user input.
 
 ### Mode C: Candidate deepening design
 
-Use after the user selects a candidate, after cohesion-locality has chosen a cut, or when asked to design a public surface. Produce:
+Use after the user selects a candidate, after cohesion-locality has chosen a cut, or when asked to design a public surface. Useful elements, scaled to the decision:
 
 1. What the module **owns**.
 2. What it **hides**.
@@ -95,8 +99,8 @@ Use after the user selects a candidate, after cohesion-locality has chosen a cut
 4. **Example caller code** — the smallest realistic call site.
 5. The **tests that should survive** unchanged (the behavior contract).
 6. What **not** to refactor.
-7. **2–4 materially different designs**, only when the decision is nontrivial.
-8. **One strong recommendation**, with a one-line reason.
+7. **Materially different alternatives** when they clarify a nontrivial tradeoff; no quota.
+8. **A recommendation**, with its reason and any consequential uncertainty.
 
 Load `references/interface-design.md` for the comparison. Comparing designs is not a license to add interfaces — the minimal surface often wins.
 
@@ -113,14 +117,7 @@ Close with: what changed, why the structure is better, what checks were run, and
 
 ## Validation
 
-After edits:
-
-1. Run the smallest relevant tests.
-2. Run typecheck if available.
-3. Run lint if available.
-4. Run import or dependency-boundary checks if available.
-5. Inspect the final diff; confirm no unrelated refactor crept in.
-6. If validation cannot run, state that clearly.
+After edits, run project-required checks and validation relevant to the affected behavior and boundaries. Depending on the change, that may include behavior tests, typecheck, lint, or import checks. Inspect the final diff for unintended scope or contract changes. State which checks ran and any validation limits; availability alone is not a reason to run every tool.
 
 ## Reference loading
 

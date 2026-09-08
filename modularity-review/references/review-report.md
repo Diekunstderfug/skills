@@ -1,6 +1,6 @@
 # Review Report
 
-The candidate report format for **Mode B** architecture friction scans. Markdown is the default. HTML is opt-in for broad scans only. Use the vocabulary in `language.md` (public surface, leakage, shallow module, locality, change amplification, recommendation strength).
+The candidate report format for **Mode B** architecture friction scans. Markdown is the default. HTML is opt-in. Use the vocabulary in `language.md` (public surface, leakage, shallow module, locality, change amplification, recommendation strength).
 
 **When to use candidate cards:**
 
@@ -57,14 +57,14 @@ Present candidates ordered by strength, with the single most important action su
 
 Guidance:
 
-- Cap candidates at what is genuinely worth raising — usually 1 to 4. Quality over count.
+- Present candidates worth raising; the example is a flexible format, not a quota or required set of fields.
 - The before/after sketches are dependency or call-shape sketches, not full diffs. Keep them small enough to read at a glance.
-- Every candidate must name *what not to change*. This is where this skill differs from generic architecture tools.
-- If a candidate's only justification is a hypothetical future, mark it Speculative and keep it short.
+- Include scope guardrails when there is a concrete risk of unnecessary refactoring; omit empty template fields.
+- If a candidate depends on a hypothetical future, label the assumption. Give it the depth warranted by the user's requested exploration, without presenting it as a verified defect.
 
 ## Optional: HTML report
 
-Use only when the user asks for a full/visual architecture report, or when the task is a broad architecture scan across many modules and a memorable artifact helps.
+Use when the user requests HTML output. A broad scan alone does not require an HTML artifact.
 
 Rules:
 

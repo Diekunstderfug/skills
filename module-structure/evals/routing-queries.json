@@ -2,149 +2,398 @@
   {
     "query": "this route handler is a mess, it validates, queries db, sends emails, maps errors. help me clean it up",
     "should_route": true,
-    "route": "modularity-review"
+    "route": "modularity-review",
+    "id": "route-01",
+    "expected": {
+      "route": "modularity-review"
+    }
   },
   {
     "query": "review this PR for module boundaries and coupling",
     "should_route": true,
     "route": "modularity-review",
-    "note": "PR structure review — Mode A. If the real question becomes 'should these be one unit?', hand off to cohesion-locality."
+    "note": "PR structure review — Mode A. If the real question becomes 'should these be one unit?', hand off to cohesion-locality.",
+    "id": "route-02",
+    "expected": {
+      "route": "modularity-review"
+    }
   },
   {
     "query": "find places where our service layer is just pass-through wrappers",
     "should_route": true,
-    "route": "modularity-review"
+    "route": "modularity-review",
+    "id": "route-03",
+    "expected": {
+      "route": "modularity-review"
+    }
   },
   {
     "query": "split this 900 line file",
     "should_route": true,
     "route": "cohesion-locality",
-    "note": "Split decision comes first; line count alone is never the reason."
+    "note": "Split decision comes first; line count alone is never the reason.",
+    "id": "route-04",
+    "expected": {
+      "route": "cohesion-locality"
+    }
   },
   {
     "query": "make this React component easier to test without creating fake architecture",
     "should_route": true,
-    "route": "modularity-review"
+    "route": "modularity-review",
+    "id": "route-05",
+    "expected": {
+      "route": "modularity-review"
+    }
   },
   {
     "query": "I keep editing the same date-formatting logic in five different files, what should I do",
     "should_route": true,
     "route": "modularity-review",
-    "note": "Change amplification / leakage. If the underlying question is ownership of a change axis, hand off to cohesion-locality."
+    "note": "Change amplification / leakage. If the underlying question is ownership of a change axis, hand off to cohesion-locality.",
+    "id": "route-06",
+    "expected": {
+      "route": "modularity-review"
+    }
   },
   {
     "query": "scan this backend for refactoring candidates and give me a top recommendation",
     "should_route": true,
     "route": "modularity-review",
-    "note": "Mode B friction scan."
+    "note": "Mode B friction scan.",
+    "id": "route-07",
+    "expected": {
+      "route": "modularity-review"
+    }
   },
   {
     "query": "should this be one module or three? the boundaries feel wrong",
     "should_route": true,
-    "route": "cohesion-locality"
+    "route": "cohesion-locality",
+    "id": "route-08",
+    "expected": {
+      "route": "cohesion-locality"
+    }
   },
   {
     "query": "explore candidate 2 and design the public API for it",
     "should_route": true,
     "route": "modularity-review",
-    "note": "Mode C — chosen candidate, not an open-ended workshop (that would be Matt)."
+    "note": "Mode C — chosen candidate; broader exploration is also supported when requested.",
+    "id": "route-09",
+    "expected": {
+      "route": "modularity-review"
+    }
   },
   {
     "query": "this util file has become a junk drawer, where should these functions live",
     "should_route": true,
-    "route": "cohesion-locality"
+    "route": "cohesion-locality",
+    "id": "route-10",
+    "expected": {
+      "route": "cohesion-locality"
+    }
   },
   {
     "query": "this file is 1200 lines, split it",
     "should_route": true,
-    "route": "cohesion-locality"
+    "route": "cohesion-locality",
+    "id": "route-11",
+    "expected": {
+      "route": "cohesion-locality"
+    }
   },
   {
     "query": "should we add Clean Architecture here?",
     "should_route": true,
     "route": "modularity-review",
-    "note": "Default answer is no unless it solves present complexity (non-negotiables 3-4)."
+    "note": "Compare current benefit and cost; hypothetical designs may be explored without recommending immediate adoption.",
+    "id": "route-12",
+    "expected": {
+      "route": "modularity-review"
+    }
   },
   {
     "query": "this module imports the db client everywhere",
     "should_route": true,
-    "route": "modularity-review"
+    "route": "modularity-review",
+    "id": "route-13",
+    "expected": {
+      "route": "modularity-review"
+    }
   },
   {
     "query": "create an HTML architecture report for this package",
     "should_route": true,
     "route": "modularity-review",
-    "note": "Mode B with opt-in HTML report."
+    "note": "Mode B with opt-in HTML report.",
+    "id": "route-14",
+    "expected": {
+      "route": "modularity-review"
+    }
   },
   {
     "query": "format this file with prettier",
     "should_route": false,
-    "route": "none"
+    "route": "none",
+    "id": "route-15",
+    "expected": {
+      "route": "none"
+    }
   },
   {
     "query": "fix this null pointer bug",
     "should_route": false,
-    "route": "none"
+    "route": "none",
+    "id": "route-16",
+    "expected": {
+      "route": "none"
+    }
   },
   {
     "query": "rename getUsr to getUser",
     "should_route": false,
-    "route": "none"
+    "route": "none",
+    "id": "route-17",
+    "expected": {
+      "route": "none"
+    }
   },
   {
     "query": "add a loading spinner to this button",
     "should_route": false,
-    "route": "none"
+    "route": "none",
+    "id": "route-18",
+    "expected": {
+      "route": "none"
+    }
   },
   {
     "query": "write unit tests for this pure function",
     "should_route": false,
-    "route": "none"
+    "route": "none",
+    "id": "route-19",
+    "expected": {
+      "route": "none"
+    }
   },
   {
     "query": "why is this regex not matching trailing whitespace",
     "should_route": false,
-    "route": "none"
+    "route": "none",
+    "id": "route-20",
+    "expected": {
+      "route": "none"
+    }
   },
   {
     "query": "bump the express dependency to the latest version",
     "should_route": false,
-    "route": "none"
+    "route": "none",
+    "id": "route-21",
+    "expected": {
+      "route": "none"
+    }
   },
   {
     "query": "add a new column to the users table and a migration",
     "should_route": false,
-    "route": "none"
+    "route": "none",
+    "id": "route-22",
+    "expected": {
+      "route": "none"
+    }
   },
   {
     "query": "translate these UI strings into French",
     "should_route": false,
-    "route": "none"
+    "route": "none",
+    "id": "route-23",
+    "expected": {
+      "route": "none"
+    }
   },
   {
     "query": "the API returns 500 on empty body, what's the cause",
     "should_route": false,
-    "route": "none"
+    "route": "none",
+    "id": "route-24",
+    "expected": {
+      "route": "none"
+    }
   },
   {
     "query": "fix typo in button label",
     "should_route": false,
-    "route": "none"
+    "route": "none",
+    "id": "route-25",
+    "expected": {
+      "route": "none"
+    }
   },
   {
     "query": "add console logging to debug this request",
     "should_route": false,
-    "route": "none"
+    "route": "none",
+    "id": "route-26",
+    "expected": {
+      "route": "none"
+    }
   },
   {
     "query": "upgrade vite to latest",
     "should_route": false,
-    "route": "none"
+    "route": "none",
+    "id": "route-27",
+    "expected": {
+      "route": "none"
+    }
   },
   {
     "query": "write a SQL migration for user_status",
     "should_route": false,
     "route": "none",
-    "note": "Not structural by itself; would only route if the user also asks how the change reshapes module boundaries or public types."
+    "note": "Not structural by itself; would only route if the user also asks how the change reshapes module boundaries or public types.",
+    "id": "route-28",
+    "expected": {
+      "route": "none"
+    }
+  },
+  {
+    "id": "review-resume",
+    "query": "只审查这个 handler 的结构，指出问题，不要改代码。",
+    "context": {
+      "code": "def handle(req):\n    # Implements discount policy, SQL construction, and SMTP retry rules inline.\n    ...",
+      "current_mode": "modularity-review A; inspection found independent ownership of discount, storage, and provider retry rules"
+    },
+    "should_route": true,
+    "route": "modularity-review",
+    "expected": {
+      "route": "modularity-review",
+      "path": [
+        "modularity-review",
+        "cohesion-locality",
+        "modularity-review"
+      ],
+      "task_kind": "review",
+      "edits_allowed": false
+    }
+  },
+  {
+    "id": "implement-resume",
+    "query": "按刚才确定的方案重构这个 handler，保持行为不变。",
+    "context": {
+      "prior_turn": "User selected the design and requested implementation. During Mode D, provider-specific retry ownership is still unclear."
+    },
+    "should_route": true,
+    "route": "modularity-review",
+    "expected": {
+      "route": "modularity-review",
+      "path": [
+        "modularity-review",
+        "cohesion-locality",
+        "modularity-review"
+      ],
+      "task_kind": "implementation",
+      "edits_allowed": true,
+      "repeat_approval": false
+    }
+  },
+  {
+    "id": "keep-cohesive",
+    "query": "这个文件太长了，要不要拆？先给判断。",
+    "context": {
+      "code": "class Ledger:\n    def debit(self, amount): ...\n    def credit(self, amount): ...\n    def balance(self): ...",
+      "facts": "All operations maintain the same balance invariant and share the same ledger state. No independent responsibility or maintenance cost was found."
+    },
+    "should_route": true,
+    "route": "cohesion-locality",
+    "expected": {
+      "route": "cohesion-locality",
+      "path": [
+        "cohesion-locality"
+      ],
+      "task_kind": "review",
+      "decision": "keep",
+      "edits_allowed": false
+    }
+  },
+  {
+    "id": "mixed-design",
+    "query": "先判断这些函数该不该放一起，再给一个更简单的调用接口。不要实现。",
+    "context": {
+      "facts": "The functions share one transaction invariant. Callers currently coordinate their internal sequence."
+    },
+    "should_route": true,
+    "route": "cohesion-locality",
+    "expected": {
+      "route": "cohesion-locality",
+      "path": [
+        "cohesion-locality",
+        "modularity-review"
+      ],
+      "task_kind": "design",
+      "decision": "keep",
+      "edits_allowed": false
+    }
+  },
+  {
+    "id": "unresolved-boundary",
+    "query": "审查 A 和 B 的结构问题。",
+    "context": {
+      "current_mode": "modularity-review A",
+      "facts": "A has documented pass-through layers. B ownership was consulted once with cohesion-locality but cannot be resolved without an unavailable contract. No new evidence exists."
+    },
+    "should_route": true,
+    "route": "modularity-review",
+    "expected": {
+      "route": "modularity-review",
+      "task_kind": "review",
+      "edits_allowed": false,
+      "reconsult_same_boundary": false,
+      "report_unaffected_findings": true
+    }
+  },
+  {
+    "id": "html-format",
+    "query": "审查这个包的浅层封装和错误泄漏，用 HTML 输出。",
+    "context": {},
+    "should_route": true,
+    "route": "modularity-review",
+    "expected": {
+      "route": "modularity-review",
+      "task_kind": "review",
+      "edits_allowed": false,
+      "external_skill_required": false
+    }
+  },
+  {
+    "id": "prior-boundary",
+    "query": "继续，按刚才的边界设计公开接口，不用再判断怎么拆。",
+    "context": {
+      "prior_turn": "cohesion-locality decided provider-specific retries belong inside the existing provider adapter; user accepted it. No new conflicting evidence."
+    },
+    "should_route": true,
+    "route": "modularity-review",
+    "expected": {
+      "route": "modularity-review",
+      "path": [
+        "modularity-review"
+      ],
+      "task_kind": "design",
+      "edits_allowed": false
+    }
+  },
+  {
+    "id": "chinese-negative",
+    "query": "修一下按钮文字的错别字。",
+    "context": {},
+    "should_route": false,
+    "route": "none",
+    "expected": {
+      "route": "none",
+      "path": [],
+      "task_kind": "implementation"
+    }
   }
 ]

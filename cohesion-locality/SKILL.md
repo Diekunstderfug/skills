@@ -1,443 +1,62 @@
 ---
 name: cohesion-locality
 description: >-
-  Decides what stays together: keep together what changes together,
-  separate independent change axes, prefer cohesive units over small
-  files or tiny functions. Use when splitting or joining units, naming
-  a change axis, over-splitting, shrinking files, one-class-per-file,
-  extracting a helper, catch-all utils/helpers/common, or Manager/Helper
-  classes. Do not use for PR structure review, shallow layers, leakage,
-  hard-to-test public surfaces, or architecture cosplay — those are
-  modularity-review.
+  Evaluates whether code should stay together, split, join, or move to
+  a better owner, using cohesion, change locality, and shared invariants.
+  Use for responsibility/change-axis boundaries, over-splitting, shrinking
+  files, one-class-per-file, helper extraction, catch-all modules,
+  Manager/Helper classes, or misplaced knowledge. For public-surface complexity
+  and dependency review, modularity-review is complementary.
 metadata:
   targets: [claude, cursor, codex, agents]
 ---
 
-# Cohesion, Responsibility, and Locality
+# Cohesion and Locality
 
-Language, runtime, and product domain do not change these rules. Examples below illustrate shape, not a required stack.
+Help the user find boundaries that make code easier to understand, change, and debug. Prefer cohesive units over merely small units. Keep knowledge and behavior together when they share a meaningful invariant, contract, lifecycle, or reason to change; consider separating independent responsibilities when that improves locality.
 
-Complement, do not duplicate: **this skill owns what stays together**. Public-surface depth, leakage, and architecture cosplay are modularity-review. Maintained together; user-invoked router: `module-structure`.
+These are design principles, not a prescribed architecture. Adapt their application to the code, language, project constraints, and requested depth. Exploration can use tentative scenarios and alternative boundaries; a confident recommendation needs stronger support than an exploratory idea.
 
-## Apply
+## Choose the useful detail
 
-Before extracting, splitting a file, or introducing a class/interface/wrapper:
+Start with the requested unit and enough code context to understand its role. Use the following references when their detail helps; read the relevant section rather than loading the whole reference set. A straightforward judgment can finish from this entrypoint. For a nontrivial case, start with the most relevant reference; another is useful only if a different question remains. The review checklist is optional, not a prerequisite for every review.
 
-1. Name the unit's current responsibilities in one short sentence each.
-2. Ask: **what future requirement would cause this code to change?**
-3. Separate only responsibilities with independent reasons to change.
-4. Keep together behavior that shares purpose, knowledge, invariant, or change axis.
-5. If the extracted unit would be a one-use pass-through, do not extract.
+| Current question | Reference |
+| --- | --- |
+| How to inspect, explore alternatives, challenge a cut, or report a finding? | [Review and exploration](references/review-checklist.md) |
+| Does this function mix concerns, or is it cohesive orchestration? | [Function design](references/unit-boundaries.md#function-design) |
+| Do this class's state, collaborators, and lifecycle belong together? | [Class design](references/unit-boundaries.md#class-design) |
+| Split this file, move helpers, or reorganize a package? | [File design](references/unit-boundaries.md#file-design) and [package boundaries](references/unit-boundaries.md#module-and-package-boundaries) |
+| Who determines a rule, or do same-named concepts mean the same thing? | [Rules and meaning](references/ownership-locality.md#rules-and-meaning) |
+| Who owns state, copies, tasks, cleanup, or synchronization? | [State and consistency](references/ownership-locality.md#state-and-consistency), [lifetimes](references/ownership-locality.md#work-and-resource-lifetimes), or [synchronization](references/ownership-locality.md#shared-state-and-synchronization) in the same reference |
+| Will a proposed boundary improve change/failure locality enough to justify its cost? | [Locality](references/ownership-locality.md#change-and-failure-locality) and [boundary cost](references/ownership-locality.md#boundary-cost) |
 
-When the user asks whether units should stay together or split, do both:
+These routes can combine when the question crosses levels. To locate detail cheaply, list headings with `rg '^##' references/*.md` or search the relevant concept. References supply judgment aids, not another set of independently invoked skills. [Examples](references/examples.md) are a separate optional lookup: use a matching section when a concrete contrast helps, rather than loading them by default.
 
-1. Report findings that have real maintenance cost. Format: current responsibility → why mixed → proposed boundary → split or not.
-2. Give ranked improvement recommendations (next action, not a restatement of the diagnosis). Order: required, then recommended, then consider. Prefer delete leftover facade / move knowledge to its owner over new types, files, or wrappers.
+## Default approach
 
-If there are no material findings, say so. Optional consider-level notes come after that, never as fake required work.
+A useful path is **inspect → hypothesize → challenge → recommend**; adapt or revisit it as needed. Anchor a material finding in code and its contract, consider the most relevant counterevidence, and explain the practical benefit and cost of the proposed boundary. Distinguish facts, inferences, and exploratory ideas. Hypothetical changes are welcome as probes, not proof that a refactor is required.
 
-Do not require a split because a function is long, a file is large, or a unit has many parameters or methods.
+Lead with the useful conclusion, including keep-together when appropriate. Optional priorities are **Required** for demonstrated correctness or hard-rule violations, **Recommended** for supported maintenance improvements, and **Explore** for promising conditional alternatives. Use only the report detail the decision needs; uncertainty need not prevent useful exploration.
 
-After a cut is decided, if the user needs a smaller public surface, a leakage fix, or a behavior-preserving implementation, continue with modularity-review Mode C or D. Do not design ports or rewrite layers here.
+## Judgment aids
 
-Do not merge units that only look similar if they sit on independent change axes. Duplication often beats a wrong join.
+- **Size and naming:** long functions, many methods, `Manager`, `helpers`, or “and” in a description are inspection clues, not verdicts. A cohesive file can remain large; a tiny helper can still belong elsewhere.
+- **Thin boundaries:** a one-use pass-through may add nothing, or may protect an actual compatibility contract or test boundary. Evaluate what it isolates and what removing it would expose.
+- **Ownership:** distinguish rule meaning, authoritative state, intentional copies, and the owner of work or cleanup; the same entity name does not settle these questions.
+- **Lifecycle and sequence:** grouping only by `init/process/finish` often hides ownership. A lifecycle with legal states, resource ownership, and cleanup obligations can itself be a cohesive responsibility.
+- **Orchestration:** coordinating validation, storage, and notifications can be one use case. Examine whether it also owns unrelated policy or protocol internals, and whether that causes friction.
+- **Duplication:** identical text can encode different rules. Conversely, different-looking code can repeat one contract. Judge shared knowledge and its owner before joining or extracting.
+- **Boundary cost:** consider moving knowledge to an existing owner or removing a redundant facade before adding new machinery; favor changes whose benefit exceeds their new names, imports, public contracts, coordination, and testing cost. Small edits are a good default, not a prohibition on a broader design when the problem or user calls for it.
 
-Do not treat temporal phases (`init` / `process` / `finish`) as a responsibility. Group by the concept or axis that changes, not by execution order.
+## Scope and continuation
 
----
+This skill is independently usable. `modularity-review` complements it for surface design and implementation, and the optional `module-structure` entrypoint coordinates combined work. If a boundary decision answers the request, finish here. Otherwise carry ownership, reasoning, constraints, and the remaining question into the relevant next step. When installed, the router's continuation guidance is in `../module-structure/SKILL.md`.
 
-Design code for **local understanding, local change, and local failure**.
+If a companion is unavailable, continue supported work and identify the limitation without claiming an invocation occurred. A missing skill does not prevent useful boundary reasoning or explicitly labeled design exploration.
 
-Prefer cohesive units over merely small units.
+Respect the user's requested scope and applicable hard project rules. A review or exploration does not authorize code edits. Existing implementation authorization remains valid through continuation. Preserve behavior and public contracts unless the user authorizes changing them, and report evidence and validation honestly. If implementation is requested, check relevant callers and behavior tests, choose validation appropriate to the change, and report any checks that could not run.
 
-> **Keep together what changes together; separate what changes independently.**
+## Maintenance
 
-A function, class, module, or service should represent one cohesive responsibility, concept, invariant, lifecycle, policy, transformation, adapter boundary, or closely related family of operations.
-
-Do not interpret this as "every function must do only one tiny action."
-Do not split code merely to reduce line count.
-
-### Core principles
-
-1. **Optimize for cohesion, not size**
-
-   * Closely related behavior should stay together.
-   * Code that operates on the same concept, invariant, state, knowledge, or reason to change usually belongs together.
-   * A larger cohesive unit is preferable to several shallow wrappers with no meaningful independent responsibility.
-
-2. **Separate independent reasons to change**
-
-   * If different parts of a unit are likely to change because of unrelated requirements, they should normally be separated.
-   * Examples of independent change axes include:
-
-     * business/domain policy
-     * persistence/storage
-     * transport/API protocol
-     * serialization/schema mapping
-     * infrastructure configuration
-     * retry/backoff behavior
-     * authentication/authorization
-     * observability/telemetry
-     * presentation/formatting
-     * external-provider SDK behavior
-
-3. **Design for locality**
-
-   * A change in one responsibility should require understanding as little unrelated code as practical.
-   * A failure should be traceable to a reasonably narrow conceptual boundary.
-   * Implementation details that are likely to change should be hidden behind the unit that owns that knowledge.
-   * Avoid designs where debugging one failure requires reasoning about many unrelated concerns at once.
-
-4. **Preserve abstraction levels**
-
-   * A function should normally work at one main abstraction level.
-   * High-level orchestration may coordinate lower-level operations, but should not also implement all of their internal details.
-   * Domain decisions should not be interleaved unnecessarily with SQL construction, HTTP details, serialization internals, retry loops, logging plumbing, or other unrelated infrastructure mechanics.
-
-5. **Prefer meaningful boundaries over mechanical decomposition**
-
-   * Extract code when the extracted unit has a recognizable responsibility.
-   * Good extraction targets include:
-
-     * a domain policy
-     * a transformation
-     * a validation rule
-     * a persistence operation
-     * a protocol adapter
-     * a serialization boundary
-     * an external side effect
-     * a lifecycle transition
-     * a reusable algorithm
-   * Do not create one-use pass-through helpers merely to make the original function shorter.
-   * Do not introduce classes, interfaces, factories, strategies, managers, or wrappers without a concrete responsibility or variation they isolate.
-
----
-
-## Function design
-
-A function should normally be describable with **one short responsibility sentence**.
-
-Healthy examples:
-
-* "Validate an inbound request."
-* "Translate a domain object into an external payload."
-* "Persist a task state transition."
-* "Calculate a score."
-* "Orchestrate record creation."
-
-Investigate a function when its natural description becomes:
-
-* "validate **and** persist **and** serialize **and** send"
-* "parse **and** authorize **and** cache"
-* "load configuration **and** apply business policy"
-* "transform records **and** perform retry handling **and** update database state"
-
-The word **and** is only a heuristic. Several operations may legitimately belong together when they implement one cohesive responsibility.
-
-### A function is likely too broad when
-
-* separate regions have independent reasons to change;
-* unrelated groups of local variables or dependencies appear;
-* domain logic and infrastructure mechanics are substantially interleaved;
-* the function contains several independently meaningful side effects;
-* the function name hides substantially more responsibility than it suggests;
-* modifying one concern requires understanding unrelated concerns;
-* debugging one step requires tracing through unrelated implementation details;
-* the function acts as an orchestrator while also implementing the internals of every step.
-
-### Orchestration is allowed
-
-Application services, workflows, command handlers, and use-case functions may coordinate multiple collaborators and still have one responsibility.
-
-Healthy orchestration:
-
-```python
-async def create_case(command: CreateCase) -> Case:
-    request = validator.validate(command)
-    case = case_factory.create(request)
-    await repository.save(case)
-    await event_bus.publish(CaseCreated(case.id))
-    return case
-```
-
-Its responsibility is:
-
-> Orchestrate the case-creation use case.
-
-This is cohesive even though several operations occur.
-
-Less desirable:
-
-```python
-async def create_case(command):
-    # inline validation rules
-    ...
-    # normalize domain fields
-    ...
-    # construct SQL
-    ...
-    # update database
-    ...
-    # manually construct external JSON
-    ...
-    # execute HTTP request
-    ...
-    # implement retry/backoff
-    ...
-    # update metrics
-    ...
-```
-
-The issue is not length.
-The issue is that several independently changing responsibilities are implemented inside the same unit.
-
----
-
-## Class design
-
-A class should represent one cohesive concept.
-
-Good class boundaries commonly correspond to:
-
-* domain entity or aggregate behavior;
-* lifecycle management;
-* repository/persistence boundary;
-* adapter to an external system;
-* policy or strategy;
-* parser or transformer;
-* client/provider implementation;
-* application use case;
-* resource ownership;
-* state machine or invariant.
-
-### Investigate a class when
-
-* its public methods naturally divide into unrelated conceptual groups;
-* different method groups depend on largely disjoint collaborators or state;
-* different method groups would change for unrelated reasons;
-* one subset is domain behavior while another subset is infrastructure behavior;
-* callers use the class for several unrelated purposes;
-* understanding one method requires knowledge of unrelated class responsibilities;
-* the class name becomes a vague container such as:
-
-  * `Manager`
-  * `Utils`
-  * `Helper`
-  * `Processor`
-  * `Service`
-  * `Common`
-  * `Misc`
-* the generic name is hiding multiple unrelated concepts.
-
-Generic names are not automatically wrong. They are a signal to inspect cohesion.
-
-### Do not split cohesive classes mechanically
-
-A class with many methods can still be well designed if those methods:
-
-* operate on the same concept;
-* preserve the same invariant;
-* use the same underlying knowledge;
-* participate in the same lifecycle;
-* change for the same reason.
-
-Method count and line count are **smells**, not architecture rules.
-
----
-
-## File design
-
-A file should organize code around one domain concept, component, or closely related family of duties.
-
-If the file cannot be described in one sentence, or the sentence needs several unrelated "ands", inspect mixed responsibility. Check that functions, classes, constants, and types in the file serve that same duty. Code gathered only because it was convenient should be re-homed.
-
-Keep in the same file code that is frequently read together, changed together, and shares the same implementation knowledge. Split when parts change independently or sit on different domain or infrastructure boundaries.
-
-Do not mechanically apply "one class per file" or "one function per file".
-
-Catch-all files (`utils.py`, `helpers.py`, `common.py`, `misc.py`, `manager.py`) that keep absorbing unrelated features: assign each symbol to the module that owns it. Keep only tools that are genuinely generic and have no business owner.
-
-Split a file only when the extracted file has a clear name, stable responsibility, or clear ownership. Do not split only to cut line count or add a navigation hop.
-
-Apply the change-locality and failure-locality tests below to the file as a unit: if changing or debugging one duty requires loading unrelated code, the file boundary is likely wrong.
-
----
-
-## Module and package boundaries
-
-The same rules apply above the file. A package should group files that belong to the same conceptual area.
-
-Prefer:
-
-```text
-llm/
-├── providers/
-├── routing/
-├── contracts/
-├── structured_output/
-└── service.py
-```
-
-when these pieces belong to one LLM subsystem but represent distinct internal responsibilities.
-
-Do not create extra packages solely to obtain smaller files. A package boundary should make the system easier to reason about, not merely increase file count. Catch-all packages follow the same rule as catch-all files.
-
----
-
-## Information ownership
-
-Place knowledge where it belongs.
-
-A component that owns a rule or external contract should normally own the code that interprets it.
-
-Examples:
-
-* External protocol details belong in that system's adapter/client.
-* Database persistence details belong in repositories or persistence infrastructure.
-* Domain validation belongs with the domain/application boundary that owns the rule.
-* Provider-specific API behavior belongs inside the provider implementation.
-* Serialization rules belong near the contract they serialize.
-* Retry behavior that is specific to an external provider belongs close to that provider rather than leaking across unrelated business logic.
-
-Avoid spreading one implementation decision across many unrelated modules.
-
-If changing one protocol, schema, or policy requires editing many unrelated locations, reconsider the ownership boundary.
-
----
-
-## Change locality
-
-When reviewing architecture, ask:
-
-> **What future requirement would cause this code to change?**
-
-Run it as a thought experiment: pick one responsibility, simulate the change, and note how much unrelated code you must load to make it safely.
-
-If one unit has many unrelated answers, its responsibility may be too broad.
-
-For example, if `LLMService` must change because of:
-
-* OpenAI SDK changes;
-* provider routing changes;
-* retry policy changes;
-* structured-output schema changes;
-* LangGraph runtime changes;
-* billing/accounting changes;
-* business workflow changes;
-
-then inspect whether multiple responsibilities have accumulated in one class.
-
-A healthy provider adapter might instead change primarily because of:
-
-* provider API contract;
-* provider streaming behavior;
-* provider error semantics.
-
-That is a more cohesive change axis.
-
----
-
-## Failure locality and debuggability
-
-Code boundaries should help narrow failures.
-
-Prefer architectures where debugging can proceed through clear stages:
-
-```text
-request
-  ↓
-validation
-  ↓
-domain operation
-  ↓
-persistence
-  ↓
-external adapter
-```
-
-At each boundary, inputs and outputs should be understandable enough to determine whether the fault lies before or after that boundary.
-
-Avoid implementations where a single function or object simultaneously owns enough unrelated behavior that an observed failure could plausibly originate from many independent concerns.
-
-A useful question during review is:
-
-> **If this operation fails, can an engineer identify the responsible conceptual area without understanding unrelated implementation details?**
-
-Run the companion simulation: pick one responsibility, picture it failing, and check whether you can name the owning area before reading any unrelated detail.
-
-If not, inspect the responsibility boundaries.
-
----
-
-## Coupling
-
-Prefer dependencies that follow conceptual ownership.
-
-A cohesive unit may internally contain substantial complexity if it exposes a simple, stable interface.
-
-Do not split a deep, cohesive module into many shallow modules when doing so introduces:
-
-* additional interfaces;
-* additional names;
-* more call indirection;
-* more lifecycle coordination;
-* more cross-module state;
-* more glue code;
-* more context switching for readers.
-
-Complexity hidden behind a good abstraction is often preferable to complexity distributed across many trivial abstractions.
-
----
-
-## Refactoring rules
-
-When a responsibility boundary is unclear:
-
-1. Identify the unit's current responsibilities.
-2. Identify their independent reasons to change.
-3. Identify which responsibilities share the same knowledge or state.
-4. Separate only the responsibilities that are meaningfully independent.
-5. Preserve cohesive operations that naturally belong together.
-6. Prefer moving behavior to the component that owns the relevant knowledge.
-7. Avoid changing unrelated code during the same refactor.
-8. Preserve behavior unless the task explicitly changes behavior.
-
-Do not refactor only to satisfy:
-
-* line-count limits;
-* method-count limits;
-* complexity metrics;
-* generic SOLID rules;
-* arbitrary "small function" preferences.
-
-Metrics are signals for review, not automatic design decisions.
-
----
-
-## Review aids
-
-For a review pass, load `references/review-checklist.md`: the per-unit checklist (responsibility, cohesion, change axis, abstraction, ownership, locality, extraction quality, coupling cost) and the warning-signal heuristics. Signals are smells, not verdicts — semantic cohesion decides.
-
----
-
-## Review findings
-
-On a stay-together / split / join question, report material findings **and** ranked recommendations.
-
-Each finding: current responsibility → why mixed → proposed boundary → split or not (required / recommended / consider).
-
-Then **Recommendations**: next concrete edits, ordered required → recommended → consider. Name what to change and what not to add. Prefer deleting leftover facades and moving knowledge to its owner over new types, files, or wrappers. No material findings: say so; consider-level notes come after, never as fake required work.
-
-Do not report stylistic micro-splits, or require a refactor because a function is long, a file is large, or a unit has many parameters or methods. Do not propose abstractions without the responsibility or variation they isolate. Prefer a larger cohesive unit over fragmented indirection.
-
----
-
----
-
-## Default decision rule
-
-When deciding whether code belongs together:
-
-> **Prefer cohesive units over merely small units. Keep together behavior that shares the same purpose, knowledge, invariant, or reason to change; separate responsibilities that can change independently. Design boundaries so that changes and failures remain local.**
-
-When these principles conflict with making a function, class, or file smaller, **cohesion and locality take priority over size**.
+Keep shared scope and core judgment principles here; maintain detailed criteria and examples in the routed references. Consolidate repeated guidance without discarding useful detail merely to shorten this file. Behavioral evaluation cases and instructions live in [evals/README.md](evals/README.md); they are not review-time reference material.

@@ -2,7 +2,7 @@
 
 These principles are background guidance for reviewing and improving modularity. Apply them pragmatically. Do not recite them unless they help explain a specific recommendation.
 
-**Stay-together is out of scope.** Cohesion of units, change axes, temporal grouping, and "should this be one module?" are decided by `cohesion-locality`. If a section below is about those, treat it as a stop condition, not a finding to score here.
+**Stay-together is out of scope.** Cohesion of units, change axes, temporal grouping, and "should this be one module?" are decided by `cohesion-locality`. The examples below can prompt a boundary hypothesis; consult that skill when useful and available, then continue. They are not stop conditions or proof of a finding.
 
 ## Contents
 
@@ -257,7 +257,7 @@ Owned by `cohesion-locality`. Do not decide splits or joins from this section.
 
 A module is cohesive when its parts belong together and change for the same reason.
 
-High cohesion:
+Potential feature grouping (inspect shared contracts and invariants to assess cohesion):
 
 ```txt
 users/
@@ -267,7 +267,7 @@ users/
   users.schema.ts
 ```
 
-All files exist around the user feature.
+Sharing the user feature name suggests an area to inspect; it does not establish that all its policies belong in one unit.
 
 Low cohesion:
 
@@ -439,7 +439,7 @@ Bad refactoring moments:
 
 ## Design it twice
 
-For nontrivial structure changes, compare at least two designs before choosing.
+For nontrivial structure changes, compare materially different designs when doing so clarifies the tradeoff; an obvious local solution need not trigger a design exercise.
 
 Example:
 

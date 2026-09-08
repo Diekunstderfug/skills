@@ -30,7 +30,7 @@ A module whose public surface is almost as complicated as its implementation. Pa
 
 ## Seam
 
-A place where behavior can vary or be tested without editing callers. A seam is justified by real pressure (two real implementations, or coupling that makes a unit untestable), not by anticipation.
+A place where behavior can vary or be tested without editing callers. A seam can relieve coupling, brittle tests, or an actual variation requirement. Exploratory seams can be discussed with assumptions; adoption depends on their benefit and cost.
 
 ## Leakage
 
@@ -46,7 +46,7 @@ A small behavior change requiring edits in many unrelated files. The most common
 
 ## Architecture cosplay
 
-Structure that looks architectural but does not reduce complexity: ports/adapters/use-cases/interactors layered over a small CRUD app, interfaces with one implementation, factories that build one thing. Cosplay adds surface without adding depth.
+Structure that looks architectural but does not reduce complexity: ports/adapters/use-cases/interactors layered over a small CRUD app, interfaces or factories introduced without useful contracts or isolated knowledge. Implementation count alone does not establish the problem. Cosplay adds surface without adding depth.
 
 ## Recommendation strength
 

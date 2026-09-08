@@ -4,7 +4,7 @@ Use this as a checklist during code review or refactoring.
 
 A red flag does not automatically mean the code is wrong. It means the structure deserves inspection.
 
-Stay-together flags (unclear ownership, temporal decomposition, inappropriate sharing, shotgun from mixed axes) are `cohesion-locality`. If that is the real problem, stop and use that skill. Use this list for shallow layers, leakage, reversed dependencies, overexposed surfaces, and architecture cosplay.
+Stay-together flags (unclear ownership, temporal decomposition, inappropriate sharing, shotgun from mixed axes) are `cohesion-locality`. If that is the real problem, consult that skill when available and continue the original task with the boundary evidence. Without it, keep conclusions conditional where ownership remains uncertain. Use this list for shallow layers, leakage, reversed dependencies, overexposed surfaces, and architecture cosplay.
 
 Code snippets use TypeScript for concreteness; the red flags are language-agnostic. Map the vocabulary to the project's actual stack.
 

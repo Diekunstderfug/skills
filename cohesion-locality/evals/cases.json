@@ -1,0 +1,214 @@
+[
+  {
+    "id": "atomic",
+    "query": "有人建议把借记和贷记拆成两个独立提交的服务。审查这个边界建议。",
+    "context": "The contract requires all-or-nothing updates: if credit fails, debit rolls back.",
+    "fixture": "fixtures/atomic.py",
+    "criteria": [
+      "Preserve atomicity; distinguish helper extraction from independent commits.",
+      "Explain the concrete failure risk of committing the debit separately."
+    ],
+    "failures": [
+      "Approve independent commits merely because accounts differ."
+    ]
+  },
+  {
+    "id": "mixed",
+    "query": "这个类都是围绕 User 的，是不是就不用拆？看看结构。",
+    "context": "Discount rules belong to pricing and change independently of the export format. Export callers instantiate this pricing-named unit only to write CSV.",
+    "fixture": "fixtures/mixed.py",
+    "criteria": [
+      "Recognize independent policy and serialization ownership despite a shared entity name.",
+      "Suggest an existing owner or a focused boundary with a concrete benefit."
+    ],
+    "failures": [
+      "Treat the User noun as sufficient cohesion evidence."
+    ]
+  },
+  {
+    "id": "distinct_rules",
+    "query": "两个函数一模一样，要不要合并？",
+    "context": "Shipping codes follow the carrier contract. Voucher matching follows a separate promotions contract. Neither contract promises the other will remain identical.",
+    "fixture": "fixtures/distinct_rules.py",
+    "criteria": [
+      "Recognize separate contracts and the coupling cost of merging.",
+      "Keep separate or make any shared implementation conditional on preserving independent policy ownership."
+    ],
+    "failures": [
+      "Require unification solely because text is identical."
+    ]
+  },
+  {
+    "id": "shared_contract",
+    "query": "有些提醒邮件找不到收件人，但收据可以，检查规则归属。只审查。",
+    "context": "The same client contract requires trimmed lowercase recipient keys for both entry points. There is no normalization inside client.send.",
+    "fixture": "fixtures/shared_contract.py",
+    "criteria": [
+      "Locate the inconsistent application of one recipient contract.",
+      "Recommend one owner for that shared rule without inventing a universal formatting framework."
+    ],
+    "failures": [
+      "Treat the missing normalization as harmless independent policy.",
+      "Edit target code during review."
+    ]
+  },
+  {
+    "id": "compatibility",
+    "query": "这层只是透传，能不能删掉？",
+    "context": "find_user is the stable public entry point used by external consumers. store.lookup is an internal backend operation with no compatibility guarantee.",
+    "fixture": "fixtures/compatibility.py",
+    "criteria": [
+      "Recognize the compatibility contract as value despite the thin implementation.",
+      "Keep the public boundary or discuss an explicitly authorized migration."
+    ],
+    "failures": [
+      "Delete the public entry point solely because it is a pass-through."
+    ]
+  },
+  {
+    "id": "redundant",
+    "query": "这层只是透传，看看有没有必要保留。",
+    "context": "The function is private, has one internal caller, and promises no independent contract, instrumentation, policy, or test seam. The caller already depends on store.lookup elsewhere.",
+    "fixture": "fixtures/redundant.py",
+    "criteria": [
+      "Identify removal/inlining as a reasonable simplification given the absence of an isolated contract.",
+      "Connect the benefit to eliminated indirection, not line count."
+    ],
+    "failures": [
+      "Invent a required future abstraction to justify the wrapper."
+    ]
+  },
+  {
+    "id": "lifecycle",
+    "query": "start/process/finish 是不是按时间拆分了，应该拆成三个模块？",
+    "context": "The object owns one transport handle. Callers use start, process, and finish in a try/finally lifecycle; no unrelated policy is implemented here.",
+    "fixture": "fixtures/lifecycle.py",
+    "criteria": [
+      "Recognize resource lifecycle and shared handle as cohesive ownership.",
+      "Do not split solely because names represent phases."
+    ],
+    "failures": [
+      "Require three modules based on method names alone."
+    ]
+  },
+  {
+    "id": "mechanical_phases",
+    "query": "这个流程的内聚怎么样？也可以探索更清楚的组织方式。",
+    "context": "Tax policy and receipt width have independent owners. Callers thread a dictionary carrying both concerns through all three steps.",
+    "fixture": "fixtures/mechanical_phases.py",
+    "criteria": [
+      "Identify the mixed policy/formatting state and why the phase names obscure ownership.",
+      "Explore local separation while preserving the overall workflow; label assumptions."
+    ],
+    "failures": [
+      "Claim that temporal order alone proves cohesion.",
+      "Refuse exploration because future requirements are not all known."
+    ]
+  },
+  {
+    "id": "live_copy",
+    "query": "审查这里的状态归属，删商品后计数偶尔不对，只提建议。",
+    "context": "item_count is required to equal the current number of items. No other writer repairs it.",
+    "fixture": "fixtures/live_copy.py",
+    "criteria": [
+      "Locate the inconsistent live derived value after remove.",
+      "Suggest deriving count or a single consistent update owner."
+    ],
+    "failures": [
+      "Treat count as an intentional historical snapshot.",
+      "Require a new global state framework."
+    ]
+  },
+  {
+    "id": "snapshot",
+    "query": "这个价格复制了一份，会不会低内聚？",
+    "context": "A receipt must preserve purchase-time price even after catalog prices change.",
+    "fixture": "fixtures/snapshot.py",
+    "criteria": [
+      "Recognize the receipt as an intentional historical value.",
+      "Preserve its independent lifetime and meaning."
+    ],
+    "failures": [
+      "Replace price_paid with a live catalog lookup to remove duplication."
+    ]
+  },
+  {
+    "id": "screen_task",
+    "query": "检查这个轮询的生命周期归属。",
+    "context": "The poller is needed only while this screen is open. App shutdown cancels all tasks, but leaving the screen should stop its poller sooner.",
+    "fixture": "fixtures/screen_task.py",
+    "criteria": [
+      "Identify the mismatch between screen-scoped work and application-only cleanup.",
+      "Recommend associating cancellation responsibility with the needed lifetime."
+    ],
+    "failures": [
+      "Accept shutdown cleanup as sufficient for the supplied screen contract."
+    ]
+  },
+  {
+    "id": "supervised_task",
+    "query": "请求返回以后任务还在运行，是否该调整归属？",
+    "context": "The application job supervisor persists submissions, observes failures, and handles shutdown. Jobs are explicitly required to outlive individual requests.",
+    "fixture": "fixtures/supervised_task.py",
+    "criteria": [
+      "Recognize explicit transfer to a longer-lived owner.",
+      "Preserve the requested background-job contract."
+    ],
+    "failures": [
+      "Require request completion to cancel the job."
+    ]
+  },
+  {
+    "id": "different_meanings",
+    "query": "这两个 status 都属于 Customer，要不要合并模型？",
+    "context": "Sales status means prospect/active/lapsed; support status means open/escalated/resolved. They identify the same customer but follow separate contracts.",
+    "fixture": "fixtures/different_meanings.py",
+    "criteria": [
+      "Distinguish shared identity from distinct status meanings.",
+      "Support separate rule ownership without requiring services or a full DDD stack."
+    ],
+    "failures": [
+      "Unify statuses solely because the entity name is shared."
+    ]
+  },
+  {
+    "id": "shared_meaning",
+    "query": "两个团队都用这个货币类型，是否应该各维护一份？",
+    "context": "Both teams use the same contract: integer minor units and the same currency codes. They share a published compatibility policy; no divergent requirement is known.",
+    "fixture": "fixtures/shared_meaning.py",
+    "criteria": [
+      "Recognize evidence for a shared value contract despite different teams.",
+      "Treat future divergence as conditional exploration rather than a present defect."
+    ],
+    "failures": [
+      "Require duplicate types solely because two teams use them."
+    ]
+  },
+  {
+    "id": "split_lock",
+    "query": "为了拆小函数，把检查和扣款分别加锁是否合适？",
+    "context": "Multiple threads may withdraw concurrently; a withdrawal must not make the balance negative.",
+    "fixture": "fixtures/split_lock.py",
+    "criteria": [
+      "Identify the check/update gap and relate it to the nonnegative balance invariant.",
+      "Preserve one atomic operation while allowing internal helper organization."
+    ],
+    "failures": [
+      "Claim separate locks preserve atomicity of the combined operation."
+    ]
+  },
+  {
+    "id": "protected_helpers",
+    "query": "抽两个 helper 会破坏内聚吗？",
+    "context": "All account mutations use this same lock. The private helpers are called only inside withdraw, and positive amounts are validated by the caller.",
+    "fixture": "fixtures/protected_helpers.py",
+    "criteria": [
+      "Recognize that helper extraction retains the protected combined operation.",
+      "Assess any indirection cost separately from correctness."
+    ],
+    "failures": [
+      "Require each helper to acquire its own lock.",
+      "Declare a broken atomicity contract solely because helpers are separate."
+    ]
+  }
+]
