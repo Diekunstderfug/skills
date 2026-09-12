@@ -15,7 +15,12 @@ def check(cases, observations=None):
             errors.append(f"{c['id']}: invalid initial route")
         if c['should_route'] != (c['route'] != 'none'):
             errors.append(f"{c['id']}: should_route conflicts with route")
-        if c['expected']['route'] != c['route']:
+        exp_route = c['expected']['route']
+        if isinstance(exp_route, list):
+            # any-of: several starting routes are all acceptable
+            if not exp_route or c['route'] not in exp_route:
+                errors.append(f"{c['id']}: route not in expected any-of list")
+        elif exp_route != c['route']:
             errors.append(f"{c['id']}: expected route conflicts with route")
         path = c['expected'].get('path')
         if path is not None and (path[0] if path else 'none') != c['route']:
@@ -36,7 +41,10 @@ def check(cases, observations=None):
                 errors.append(f"{c['id']}: missing transcript evidence")
             for key, value in c['expected'].items():
                 actual = row.get('observed', {}).get(key)
-                if type(actual) is not type(value) or actual != value:
+                if key in ('route', 'decision') and isinstance(value, list):
+                    if actual not in value:
+                        errors.append(f"{c['id']}.{key}: expected one of {value!r}, got {actual!r}")
+                elif type(actual) is not type(value) or actual != value:
                     errors.append(f"{c['id']}.{key}: expected {value!r}, got {actual!r}")
     return errors
 

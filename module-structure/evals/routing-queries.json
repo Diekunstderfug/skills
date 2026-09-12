@@ -50,10 +50,10 @@
     "query": "I keep editing the same date-formatting logic in five different files, what should I do",
     "should_route": true,
     "route": "modularity-review",
-    "note": "Change amplification / leakage. If the underlying question is ownership of a change axis, hand off to cohesion-locality.",
+    "note": "Change amplification / leakage. Either starting route is acceptable: modularity-review owns the same-change-in-many-files framing, cohesion-locality owns the shared-helper/ownership framing.",
     "id": "route-06",
     "expected": {
-      "route": "modularity-review"
+      "route": ["modularity-review", "cohesion-locality"]
     }
   },
   {
@@ -264,15 +264,14 @@
     "query": "只审查这个 handler 的结构，指出问题，不要改代码。",
     "context": {
       "code": "def handle(req):\n    # Implements discount policy, SQL construction, and SMTP retry rules inline.\n    ...",
-      "current_mode": "modularity-review A; inspection found independent ownership of discount, storage, and provider retry rules"
+      "current_mode": "modularity-review A; inspection found discount policy, SQL construction, and SMTP retry rules interleaved inline; ownership of each is not yet decided"
     },
     "should_route": true,
     "route": "modularity-review",
+    "note": "Review-only request stays in modularity-review; undecided ownership becomes an open item per its boundary-input rule (pause only the dependent recommendation), not a cohesion-locality consult. cohesion-locality handoff is exercised by implement-resume and mixed-design.",
     "expected": {
       "route": "modularity-review",
       "path": [
-        "modularity-review",
-        "cohesion-locality",
         "modularity-review"
       ],
       "task_kind": "review",
@@ -286,11 +285,11 @@
       "prior_turn": "User selected the design and requested implementation. During Mode D, provider-specific retry ownership is still unclear."
     },
     "should_route": true,
-    "route": "modularity-review",
+    "route": "cohesion-locality",
+    "note": "Boundary conclusion comes first (module-structure: 'obtain the boundary conclusion first'), so the open ownership question goes to cohesion-locality before Mode D continues; authorization carries over.",
     "expected": {
-      "route": "modularity-review",
+      "route": "cohesion-locality",
       "path": [
-        "modularity-review",
         "cohesion-locality",
         "modularity-review"
       ],
@@ -326,6 +325,7 @@
     },
     "should_route": true,
     "route": "cohesion-locality",
+    "note": "Keep and join are the same direction here (one owner for the shared invariant); accept either vocabulary.",
     "expected": {
       "route": "cohesion-locality",
       "path": [
@@ -333,7 +333,7 @@
         "modularity-review"
       ],
       "task_kind": "design",
-      "decision": "keep",
+      "decision": ["keep", "join"],
       "edits_allowed": false
     }
   },
@@ -394,6 +394,145 @@
       "route": "none",
       "path": [],
       "task_kind": "implementation"
+    }
+  },
+  {
+    "id": "route-29",
+    "query": "review my changes before I commit",
+    "should_route": false,
+    "route": "none",
+    "note": "Near-miss: generic review request with no structural framing goes to ordinary code review, not structural routing.",
+    "expected": {
+      "route": "none"
+    }
+  },
+  {
+    "id": "route-30",
+    "query": "clean up the unused imports and dead code in this file",
+    "should_route": false,
+    "route": "none",
+    "note": "Near-miss: 'clean up' but purely mechanical.",
+    "expected": {
+      "route": "none"
+    }
+  },
+  {
+    "id": "route-31",
+    "query": "refactor this callback chain to async/await",
+    "should_route": false,
+    "route": "none",
+    "note": "Near-miss: 'refactor' but a mechanical transformation with no boundary question.",
+    "expected": {
+      "route": "none"
+    }
+  },
+  {
+    "id": "route-32",
+    "query": "extract this repeated validation block into a shared helper",
+    "should_route": false,
+    "route": "none",
+    "note": "Near-miss: user already decided the extraction; execution only, no ownership question.",
+    "expected": {
+      "route": "none"
+    }
+  },
+  {
+    "id": "route-33",
+    "query": "把这个 200 行的 JSX 块抽成独立组件",
+    "should_route": false,
+    "route": "none",
+    "note": "Near-miss: split decision already made by the user; mechanical execution.",
+    "expected": {
+      "route": "none"
+    }
+  },
+  {
+    "id": "route-34",
+    "query": "这个函数太长了，帮我按段落加注释",
+    "should_route": false,
+    "route": "none",
+    "note": "Near-miss: length complaint, but the requested deliverable is comments, not a split decision.",
+    "expected": {
+      "route": "none"
+    }
+  },
+  {
+    "id": "route-35",
+    "query": "这个 900 行的文件要不要拆开？给我个判断",
+    "should_route": true,
+    "route": "cohesion-locality",
+    "note": "Chinese counterpart of route-04/11.",
+    "expected": {
+      "route": "cohesion-locality"
+    }
+  },
+  {
+    "id": "route-36",
+    "query": "这个 handler 又做校验又拼 SQL 又发邮件，帮我理下结构",
+    "should_route": true,
+    "route": "modularity-review",
+    "note": "Chinese counterpart of route-01.",
+    "expected": {
+      "route": "modularity-review"
+    }
+  },
+  {
+    "id": "route-37",
+    "query": "我们的 service 层全是透传 wrapper，帮我扫一遍",
+    "should_route": true,
+    "route": "modularity-review",
+    "note": "Chinese counterpart of route-03.",
+    "expected": {
+      "route": "modularity-review"
+    }
+  },
+  {
+    "id": "route-38",
+    "query": "这个 util 文件成垃圾抽屉了，这些函数到底该放哪",
+    "should_route": true,
+    "route": "cohesion-locality",
+    "note": "Chinese counterpart of route-10.",
+    "expected": {
+      "route": "cohesion-locality"
+    }
+  },
+  {
+    "id": "route-39",
+    "query": "should retry logic live in the http client or in each caller? I keep flip-flopping",
+    "should_route": true,
+    "route": "cohesion-locality",
+    "note": "Ownership/placement question, no review ask.",
+    "expected": {
+      "route": "cohesion-locality"
+    }
+  },
+  {
+    "id": "route-40",
+    "query": "these two classes change together every single PR — merge them or keep separate?",
+    "should_route": true,
+    "route": "cohesion-locality",
+    "note": "Join decision driven by change locality.",
+    "expected": {
+      "route": "cohesion-locality"
+    }
+  },
+  {
+    "id": "route-41",
+    "query": "where should input validation live, the route layer or the domain objects?",
+    "should_route": true,
+    "route": "cohesion-locality",
+    "expected": {
+      "route": "cohesion-locality"
+    }
+  },
+  {
+    "id": "route-42",
+    "query": "this helper is shared by billing and reporting and both keep pulling it in different directions",
+    "should_route": true,
+    "route": "cohesion-locality",
+    "note": "Competing change axes on a shared unit — split/ownership question.",
+    "expected": {
+      "route": "cohesion-locality"
     }
   }
 ]

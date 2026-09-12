@@ -1,6 +1,6 @@
 # Boundary judgment evaluation
 
-These sixteen small code fixtures contrast atomicity versus independent policy, shared versus independent contracts, useful versus redundant thin wrappers, lifecycle versus mechanical phase grouping, live copies versus snapshots, abandoned versus supervised tasks, semantic divergence versus shared value models, and broken versus preserved synchronization. They test reasoning, not preferred wording or a single directory layout.
+These twenty small code fixtures contrast atomicity versus independent policy, shared versus independent contracts, useful versus redundant thin wrappers, lifecycle versus mechanical phase grouping, live copies versus snapshots, abandoned versus supervised tasks, semantic divergence versus shared value models, and broken versus preserved synchronization. Four further cases cover the skip path (an extraction the user already decided, a routine typo fix), design before code exists, and over-splitting; two of the four use English queries. They test reasoning, not preferred wording or a single directory layout.
 
 ## Running a behavioral evaluation
 

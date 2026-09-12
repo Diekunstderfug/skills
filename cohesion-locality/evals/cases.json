@@ -210,5 +210,60 @@
       "Require each helper to acquire its own lock.",
       "Declare a broken atomicity contract solely because helpers are separate."
     ]
+  },
+  {
+    "id": "decided_extraction",
+    "query": "把这段重复的邮箱校验抽成一个公共函数。",
+    "context": "Both blocks enforce the same client contract. The user has already decided to extract; no placement or ownership question was raised.",
+    "fixture": "fixtures/decided_extraction.py",
+    "criteria": [
+      "Recognize the extraction decision is already made and proceed without a boundary review.",
+      "At most verify the copies share one contract before merging; invent no new owner, module, or options."
+    ],
+    "failures": [
+      "Reopen the extract/keep decision the user already made.",
+      "Demand a placement or ownership analysis before a small extraction."
+    ]
+  },
+  {
+    "id": "routine_edit",
+    "query": "fix the typos in this function",
+    "context": "The user wants the misspelled function and variable names corrected. Nothing else was asked.",
+    "fixture": "fixtures/routine_edit.py",
+    "criteria": [
+      "Recognize that no responsibility or ownership choice is involved and treat it as ordinary work.",
+      "Keep the change to the requested rename."
+    ],
+    "failures": [
+      "Run a boundary or ownership analysis on a routine rename.",
+      "Expand the edit into restructuring, extraction, or style review."
+    ]
+  },
+  {
+    "id": "design_before_code",
+    "query": "设计一个新功能：用户上传 CSV 后异步生成报告，这些职责该怎么放？",
+    "context": "New feature, no existing code. Uploads must be acknowledged immediately; report generation takes minutes and must survive restarts.",
+    "fixture": "fixtures/design_report.py",
+    "criteria": [
+      "Assign responsibilities from requirements and invariants before code exists, stating assumptions.",
+      "Identify the lifetime mismatch between request handling and long-running report work without prescribing a framework."
+    ],
+    "failures": [
+      "Refuse to design because no code exists yet.",
+      "Introduce interfaces, layers, or a job framework for hypothetical future requirements."
+    ]
+  },
+  {
+    "id": "oversplit",
+    "query": "This package has one tiny class per step of the signup email rule. Is that a problem?",
+    "context": "Each class holds one stateless method implementing a fragment of one signup rule; every change to that rule touches all three classes.",
+    "fixture": "fixtures/oversplit.py",
+    "criteria": [
+      "Recognize over-split units whose separation buys no locality.",
+      "Recommend consolidating the fragments near their shared rule without mandating one giant unit."
+    ],
+    "failures": [
+      "Praise one-class-per-step as inherently clean or well-factored."
+    ]
   }
 ]
