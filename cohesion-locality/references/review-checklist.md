@@ -8,6 +8,7 @@ Read the sections useful to a review, open-ended boundary exploration, or a diff
 - [Counterevidence and extraction cost](#counterevidence-and-extraction-cost): challenging a proposed cut.
 - [Calibrating the conclusion](#calibrating-the-conclusion): confidence and alternatives.
 - [Inspection signals](#inspection-signals): optional triage clues and their limits.
+- [Parallel review](#parallel-review): read when delegating a review; independent inspection and main-agent verification.
 
 ## Working approach
 
@@ -90,3 +91,27 @@ Compare the practical options: keep, move, join, or split. These are possible ou
 Long functions, many branches/local variables/arguments/public methods, generic names, disjoint injected dependencies, unrelated side effects, independently meaningful comment-delimited blocks, and little interaction between method groups can help select code to inspect. Mixing domain, database, HTTP, serialization, and telemetry details or scattering one change across unrelated files can also reveal ownership questions.
 
 Static-analysis complexity measures can surface candidates; they do not establish a defect or a useful cut. Prefer semantic evidence over line/method/parameter thresholds, complexity scores, or generic SOLID/small-function preferences unless an applicable project rule explicitly requires otherwise. A large parameter list may express one cohesive contract; many branches may belong to one algorithm.
+
+## Parallel review
+
+Use this branch for delegated reviews, including review within a larger authorized task. Review subagents inspect and report without editing the target code; the main retains the user's original authorization for any subsequent implementation. Use the host's available subagent tools. When they are unavailable or delegation would duplicate tightly coupled work, the main reviews directly and states any remaining coverage limits. External reviewer processes require an explicit user request; do not build a runner or start nested model CLIs merely to obtain parallelism.
+
+### Main: define the scope and dispatch
+
+Read the applicable project skills and authoritative rules before assigning work. Give a required domain specialist its own fresh-context assignment alongside structural reviewers; for example, a project's medical safety skill can own one medical review covering all its dimensions. Reuse that assignment across this suite. Send only the relevant task, contracts, and exact rule/skill paths rather than the full conversation; reviewers independently read the applicable source files. Keep payloads and reports within project privacy rules.
+
+Resolve the repository, relevant paths, and review revision once. For a diff, provide the actual base and target revisions; for uncommitted work, use a captured snapshot or record changes so results can be checked against the same input. Assign cohesive areas or concrete boundary questions, with needed callers and contracts available. All reviewers apply the complete principles; do not divide ownership, state, and lifecycle into isolated principle-specific reviewers.
+
+Send each reviewer the task kind, exact scope, applicable project instructions, known contracts and accepted decisions, and the exact skill location. Require a full read of the entrypoint, with references only as needed. Use fresh contexts and withhold tentative main/peer findings on the first pass. Supply established user constraints without disguising hypotheses as facts. Allow related-code inspection beyond the assigned directory and require reviewers to report what they actually covered. Launch independent assignments together; the main can inspect cross-area relationships while they run. Reviewers return results to the same main and do not delegate recursively.
+
+### Reviewer: return evidence, not a verdict quota
+
+For each material finding, give the relevant symbols and file/line locations, the code or contract evidence, the ownership/invariant issue and its practical consequence, the smallest useful change, and the strongest counterevidence or unresolved assumption. Keep recommendation strength separate from confidence; a maintenance suggestion is not automatically a correctness defect. Short structured prose is sufficient. No findings is a valid outcome; include inspected scope and any unresolved or uninspected areas. Claims about protection elsewhere or test coverage need the actual handling code or named test, not a search miss or a guess.
+
+### Main: verify and synthesize
+
+Account for every assignment before closing the review. For failed, timed-out, or unusable output, recover it, inspect the gap directly, or report the missing coverage; none of those states means no findings. Retain source attribution and inspected scope. Merge duplicates by underlying rule or invariant and affected symbols, not line number alone. Repeated agreement is not additional evidence by itself and does not automatically raise confidence.
+
+Read the motivating code, relevant callers, and contract evidence before promoting a finding. Test the strongest counterargument, including intentional snapshots, compatibility boundaries, or preserved atomicity. Resolve reviewer disagreements against that evidence; keep unsupported claims as conditional exploration or open questions. If the reviewed code changed, recheck affected findings and report any stale coverage.
+
+Check relationships across assignments: shared state, transaction boundaries, work/cleanup lifetimes, and duplicated rule ownership. A focused follow-up reviewer can investigate a concrete gap and receive the earlier findings explicitly as follow-up context; another full pass is not mandatory. Finish with one coherent conclusion, distinguishing demonstrated violations, maintenance improvements, exploratory ideas, and coverage limits. Do not derive a quality score from finding counts or auto-apply fixes during a review.

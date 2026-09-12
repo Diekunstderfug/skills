@@ -1,6 +1,6 @@
 # Review Report
 
-The candidate report format for **Mode B** architecture friction scans. Markdown is the default. HTML is opt-in. Use the vocabulary in `language.md` (public surface, leakage, shallow module, locality, change amplification, recommendation strength).
+The candidate report format for **Mode B** architecture friction scans, plus [parallel review](#parallel-review) guidance for delegated **Mode A/B** reviews. Read that section when delegating; it does not require candidate cards in Mode A. Markdown is the default. HTML is opt-in. Use the vocabulary in `language.md` (public surface, leakage, shallow module, locality, change amplification, recommendation strength).
 
 **When to use candidate cards:**
 
@@ -97,3 +97,27 @@ Minimal skeleton:
 </body>
 </html>
 ```
+
+## Parallel review
+
+Use this branch only for delegated review work. Review subagents inspect and report without editing target code; the main retains the original task scope and any authorization for subsequent implementation. Use the host's available subagent tools. When they are unavailable or delegation would duplicate tightly coupled work, the main reviews directly and reports any remaining coverage limits. External reviewer processes require an explicit user request; do not build a runner or start nested model CLIs merely to obtain parallelism.
+
+### Main: scope and independent assignments
+
+Read applicable project skills and authoritative rules before assigning work. Required domain specialists receive their own fresh-context assignment alongside structural reviewers; one medical reviewer, for example, applies all dimensions of the project's medical safety skill. Reuse the same domain assignment across the suite. Send relevant tasks, contracts, and exact rule/skill paths rather than session history; reviewers independently read those source files. Respect project privacy rules in both inputs and reports.
+
+Resolve the repository, paths, and review revision once. Provide actual base and target revisions for diffs, or a captured snapshot/record of uncommitted input changes. Assign cohesive areas or concrete public-contract questions, with relevant callers and dependencies accessible. Avoid assigning disconnected principles to separate reviewers; each reviewer needs the full contract and related knowledge, even across directories.
+
+Give each reviewer the task kind and mode, exact scope, project instructions, known contracts and accepted boundary decisions, and exact skill locations. Require the complete entrypoint and `principles.md`; ownership questions use the complete cohesion-locality entrypoint when available. Other references remain on demand. Use fresh contexts without tentative main/peer findings on the first pass. Reviewers inspect relevant neighboring code, report coverage, and return to the same main without recursive delegation. Launch independent assignments together while the main checks cross-area dependencies.
+
+### Reviewer: findings and coverage
+
+Return file/line locations and symbols, source/contract evidence, the complexity mechanism and practical impact, the smallest useful change, and counterevidence or uncertainty. Keep impact and recommendation strength separate from confidence. A boundary finding can use its own ownership evidence without being forced into an interface score. No findings is acceptable; report inspected scope and unresolved or uninspected areas. Verify claims about handling elsewhere or test coverage against actual code or named tests. Short structured prose is sufficient; no numeric confidence scale or JSON schema is required.
+
+### Main: evidence and one report
+
+Account for all assignments; recover failed, timed-out, or malformed output, inspect the gap directly, or state missing coverage. Missing coverage is distinct from a completed review with no findings. Retain attribution and merge duplicates by underlying mechanism, contract, and affected symbols. Agreement alone does not raise confidence; resolve disagreements by inspecting evidence.
+
+Before including a material finding, read its motivating code, relevant callers, and claimed contracts, and challenge the proposed change with its strongest counterargument. Confirm that a thin interface is redundant before deleting it, and that a proposed seam reduces caller knowledge rather than adding it. Keep unverified claims conditional; recheck affected findings if input changed and identify any stale coverage.
+
+Inspect relationships between assignments: dependency direction, leaked knowledge and error contracts, caller sequencing, shared state, and lifetime/transaction obligations. Consult cohesion-locality when unresolved ownership affects a recommendation. A focused follow-up reviewer may investigate a specific gap with earlier results supplied as follow-up context; another full pass is optional. Produce one Mode A or B report, separating demonstrated defects, supported improvements, exploratory suggestions, and coverage limits. Finding counts are not a quality score, and review findings do not authorize automatic fixes.
