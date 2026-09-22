@@ -2,6 +2,10 @@
 
 个人维护的 skills 仓库。模块结构相关能力既可独立使用，也可通过 `module-structure` 组合使用。
 
+## Paper Lookup
+
+[paper-lookup](research/paper-lookup/SKILL.md) 提供 18 个学术 API 的调用说明及检索辅助脚本，存放于 `research/paper-lookup/`，由本仓库维护。上游仓库、路径和基准 commit 保留在 skill 的 metadata 中，更新采用审查后选择性合并。上游 MIT 许可证保留于 [LICENSE.md](research/paper-lookup/LICENSE.md)。
+
 ## Module Structure：独立能力与组合入口
 
 **`cohesion-locality` 和 `modularity-review` 是两个可以独立安装、独立使用的 skill；`module-structure` 是它们的组合入口，帮助 agent 判断当前需要哪种分析，以及是否需要衔接下一步。**
