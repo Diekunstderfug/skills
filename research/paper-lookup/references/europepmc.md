@@ -87,6 +87,11 @@ a mangled or truncated query before trusting `hitCount`.
 Note the `errCode` is 404 *inside a 200 response*. Check for `errCode` / the absence of `resultList`
 before indexing into results -- neither the HTTP status nor an exception will tell you.
 
+A live check on 2026-09-22 also observed a valid cursor intermittently returning only
+`{"version":"6.9"}` with HTTP 200. This is an incomplete response, not zero hits.
+The paginator retries a missing result container within its request budget; if it
+still fails, it preserves the current records and cursor for a later `--resume`.
+
 ### 2. Full text XML
 
 ```

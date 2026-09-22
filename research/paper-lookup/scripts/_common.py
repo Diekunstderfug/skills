@@ -117,7 +117,7 @@ def collapse_ws(text: str | None) -> str:
 class Reconciliation:
     """Expected versus retrieved, and *why* they differ when they do.
 
-    Three outcomes, deliberately not collapsed into one boolean:
+    Completion, requested limits, unknown totals and failures remain distinct:
 
     `complete`
         The API said it was done and the counts agree. Nothing to caveat.
@@ -136,7 +136,8 @@ class Reconciliation:
 
     `expected` is None for the several endpoints here that report no total at all
     (bioRxiv DOI lookups, `/details/{N}`). That is a documented state, not a
-    failure.
+    failure. In that case `complete` is None, rather than an unsupported True.
+    A recorded error always makes `complete` and `ok` False.
     """
 
     expected: int | None = None
@@ -144,20 +145,21 @@ class Reconciliation:
     pages: int = 0
     stopped_at_limit: bool = False
     notes: list[str] = field(default_factory=list)
+    error: str | None = None
 
     @property
-    def complete(self) -> bool:
+    def complete(self) -> bool | None:
         """Did the walk retrieve everything the API said exists?"""
-        if self.stopped_at_limit:
+        if self.stopped_at_limit or self.error:
             return False
         if self.expected is None:
-            return True
+            return None
         return self.retrieved == self.expected
 
     @property
     def ok(self) -> bool:
         """Is the shortfall explained? False only when records went missing."""
-        return self.complete or self.stopped_at_limit
+        return not self.error and (self.complete is True or self.stopped_at_limit or self.expected is None)
 
     def note(self, message: str) -> None:
         self.notes.append(message)
@@ -172,17 +174,20 @@ class Reconciliation:
         }
         if self.expected is None:
             summary["expected_total_note"] = (
-                "endpoint reports no total; retrieved_total is all that can be asserted"
+                "expected total is unavailable; numerical completeness is unverified"
             )
         elif self.retrieved != self.expected:
             summary["shortfall"] = self.expected - self.retrieved
             summary["shortfall_reason"] = (
-                "bounded by --max-records/--max-calls; raise the bound to continue"
+                f"retrieval failed before completion: {self.error}"
+                if self.error else "bounded by --max-records/--max-calls; resume to continue"
                 if self.stopped_at_limit
                 else "UNEXPLAINED: the walk ended on its own but came up short -- records are missing"
             )
         if self.notes:
             summary["notes"] = list(self.notes)
+        if self.error:
+            summary["error"] = self.error
         return summary
 
 

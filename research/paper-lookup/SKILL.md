@@ -5,7 +5,7 @@ allowed-tools: Read Bash
 license: MIT
 compatibility: Needs network access and curl. The bundled scripts require Python 3.11+ and use only the standard library. No credentials are required; NCBI_API_KEY, S2_API_KEY, CORE_API_KEY, and OPENALEX_API_KEY raise rate limits or unlock full text where noted.
 metadata:
-  version: "2.2"
+  version: "2.2.1"
   skill-author: "K-Dense Inc."
   upstream-repo: "https://github.com/K-Dense-AI/scientific-agent-skills"
   upstream-path: "skills/paper-lookup"
@@ -87,7 +87,9 @@ Match the user's intent to the right database(s).
 ```bash
 curl -s --get "https://www.ebi.ac.uk/europepmc/webservices/rest/search" \
   --data-urlencode 'query=(SRC:"PPR" AND PUBLISHER:"bioRxiv" AND "organoid")' \
-  --data-urlencode 'format=json&pageSize=10&resultType=lite'
+  --data-urlencode 'format=json' \
+  --data-urlencode 'pageSize=10' \
+  --data-urlencode 'resultType=lite'
 ```
 
 Take the `10.1101/...` DOIs from those results to the bioRxiv/medRxiv API for preprint-specific metadata such as the published-version link. Semantic Scholar and OpenAlex also index preprints and remain reasonable alternatives.
@@ -132,7 +134,7 @@ Most of these APIs are fully open. A few benefit from a key for higher rate limi
 | Semantic Scholar | `S2_API_KEY` | No (shared pool without, often 429s) | https://www.semanticscholar.org/product/api#api-key-form |
 | OpenAlex | `OPENALEX_API_KEY` | Recommended | https://openalex.org/settings/api |
 
-**Fully open (no key):** Europe PMC (nothing at all — no key, no email), bioRxiv/medRxiv (no documented limits), arXiv (1 req / 3 s), Crossref (add `mailto` for the 2× "polite pool"), Unpaywall (requires a real `email` parameter — placeholders like `test@example.com` are rejected with HTTP 422), OpenCitations, PubTator3 (3 req/s), Zenodo and Figshare *public* record routes, ROR (2000 req / 5 min), BioStudies, DOAJ search.
+**Fully open (no key):** Europe PMC (nothing at all — no key, no email), bioRxiv/medRxiv (no documented limits), arXiv (1 req / 3 s), Crossref (optional `mailto` for the polite pool), Unpaywall (requires a real `email` parameter — placeholders like `test@example.com` are rejected with HTTP 422), OpenCitations, PubTator3 (3 req/s), Zenodo and Figshare *public* record routes, ROR (2000 req / 5 min), BioStudies, DOAJ search.
 
 **Loading keys:** Check the environment first (`$NCBI_API_KEY`, etc.). If a key is absent there and a `.env` exists in the working directory, read **only** the four variables named in the table above — do not load the file wholesale into the environment or into your context, since it routinely holds unrelated secrets that have nothing to do with literature search. If a key is missing, proceed at the lower rate limit and tell the user which key would help and where to get it — don't stall.
 
@@ -156,10 +158,10 @@ curl -s -H "Accept: application/json" -H "x-api-key: $S2_API_KEY" \
 ### Request guidelines
 
 - **URL-encode query parameters — including brackets.** DOIs contain `/` (encode as `%2F`), and titles and queries contain spaces, quotes, and parentheses. With `curl`, `--data-urlencode` combined with `--get` is the safe way to pass a search term. Never interpolate an unescaped user string into a URL or shell command. Square brackets need `%5B`/`%5D`: curl reads a literal `[` as a globbing range and **exits 3 before sending the request**, which is how the arXiv date-range syntax silently fetches nothing.
-- **Serialize requests to rate-limited APIs.** NCBI (PubMed, PMC): 3 req/s without key, 10 with. arXiv: **1 request per 3 seconds** — be patient. Crossref: 5 req/s public, 10 with `mailto`.
+- **Serialize requests to rate-limited APIs.** NCBI (PubMed, PMC): 3 req/s without key, 10 with. arXiv: **1 request per 3 seconds** — be patient. Crossref list requests: 1 req/s public, 3 with `mailto`; singleton DOI lookups: 5 and 10 respectively. The paginator uses a conservative 1.05-second delay and slows further when response headers require it.
 - **Parallelize across *different* open APIs only.** OpenAlex, Crossref, Semantic Scholar, Europe PMC, Unpaywall, OpenCitations, Zenodo, ROR, BioStudies, and DOAJ can run concurrently; keep it to a handful of requests in flight, and never parallelize against the same rate-limited host. Serialize PubTator3 (3 req/s) and NCBI.
 - **Bound total work.** Start with a count or first page. Don't continue past ~1,000 records or ~50 calls without confirming a short plan with the user — the defaults in `scripts/paginate.py` enforce exactly these bounds. For truly bulk needs, point to the database's snapshot/dump (Unpaywall, OpenAlex, CORE all offer one).
-- **On HTTP 429/503**, wait briefly and retry once. Semantic Scholar without a key hits this often — one retry, then tell the user a key would help.
+- **On transient failures**, the paginator retries HTTP 429/500/502/503/504, connection failures, non-JSON bodies and missing result containers up to twice, with backoff and `Retry-After`; each attempt consumes `--max-calls`. It saves progress when retries fail or the required wait exceeds `--max-retry-wait` (60 seconds by default). For manual API calls such as Semantic Scholar, wait and retry once; preserve the failure if still blocked. Do not bypass rate limits.
 
 ### Error recovery
 
@@ -188,14 +190,17 @@ Standard library only, Python 3.11+. Each exists because the logic is fragile, r
 
 | Script | Use it for | Exit codes beyond 0/1 |
 |---|---|---|
-| `scripts/paginate.py` | Walking bioRxiv, medRxiv, Europe PMC, OpenAlex, or Crossref with the correct step, stop condition, rate limit, and count reconciliation | **4** = walk ended on its own but came up short (records missing) |
+| `scripts/paginate.py` | Walking bioRxiv, medRxiv, Europe PMC, OpenAlex, or Crossref with the correct step, stop condition, rate limit, and count reconciliation | **4** = terminal count mismatch; **1** = request/response failure (progress saved); **130** = interrupted |
 | `scripts/jats_to_text.py` | PMC / Europe PMC JATS XML → sectioned text | **2** = no `<body>`: metadata only, not full text |
 | `scripts/arxiv_atom.py` | arXiv Atom XML → JSON records | **3** = arXiv error feed (arrives as HTTP 200); **5** = throttled (`Rate exceeded.`, plain text, not XML) |
 | `scripts/openalex_abstract.py` | Reconstructing abstracts from `abstract_inverted_index` | — |
 
 ```bash
-# Exhaustive preprint walk, reconciled against the reported total
-python3 scripts/paginate.py --api europepmc --query 'SRC:"PPR" AND "organoid"' --max-records 200
+# Bounded preprint search; inspect whether the result is complete
+python3 scripts/paginate.py --api europepmc --query 'SRC:"PPR" AND "organoid"' --max-records 200 --output preprints.json
+
+# Continue the same query, increasing the total exported-record bound
+python3 scripts/paginate.py --resume preprints.json --max-records 500
 
 # Full text, with the non-OA trap caught rather than reported as success
 curl -s "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=7029759&retmode=xml" \
@@ -209,6 +214,30 @@ curl -s "https://api.openalex.org/works/doi:10.7717/peerj.4375" | python3 script
 ```
 
 `paginate.py --list-apis` prints each API's query format. `paginate.py --dry-run` prints the first URL without fetching, which is the cheap way to check a query before spending calls.
+
+The paginator writes an atomic JSON result/checkpoint after each page and on failure.
+`--output` selects the file; without it a timestamped `paper-lookup-<api>-*.json`
+file is created in the working directory and the final JSON is also printed.
+`--resume FILE` restores the original API, query, records, pending page remainder,
+and cursor. The file must come from this local version; older exports lack checkpoints.
+Do not run concurrent writers on one checkpoint. Existing output files require
+`--resume` or a new filename. `--max-records` limits the total exported records;
+`--max-calls` limits new HTTP attempts in each invocation, including retries.
+
+Inspect `status`, `reconciliation`, `events` and `checkpoint`, not just the exit
+code. A genuine zero result is `zero_hits`; a caller-set limit is `partial`;
+an unavailable total is `unverified` with `complete: null`; failures preserve
+records and have `complete: false`. Repeated identifiers, changing totals and
+response shapes that remain invalid after bounded retries stop explicitly.
+Preprint versions remain distinct.
+Buffered records beyond the export limit are retained so resuming cannot skip
+the rest of a page. Saved server cooldowns are respected. An expired Crossref
+cursor cannot be resumed: keep the partial file and start a fresh retrieval.
+Pass contact details and credentials through the documented environment variables,
+not raw query parameters. Paging parameters are controlled by CLI options.
+
+Regression tests: `python3 -B -m unittest discover -s tests -p 'test_*.py'`.
+
 
 A non-zero exit from any of these is information, not an obstacle. Report what it says; do not work around it by re-parsing the payload yourself.
 

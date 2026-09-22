@@ -10,16 +10,19 @@ https://api.crossref.org
 
 ## Authentication
 
-None required. Add `mailto=you@example.com` to get into the **polite pool** (2x faster rate limits).
+None required. Add `mailto=you@example.com` to get into the **polite pool** (higher limits).
 
 ## Rate Limits
 
-| Pool | Rate | Concurrency |
-|------|------|-------------|
-| Public (no mailto) | 5 req/sec | 1 concurrent |
-| Polite (with mailto) | 10 req/sec | 3 concurrent |
+| Pool | List queries | Single DOI lookup |
+|------|--------------|-------------------|
+| Public (no mailto) | 1 req/sec | 5 req/sec |
+| Polite (with mailto) | 3 req/sec | 10 req/sec |
 
-HTTP 429 = temporarily blocked.
+Serialize this helper's requests. Read `x-rate-limit-limit` and
+`x-rate-limit-interval`; HTTP 429 means wait and back off. The paginator defaults
+to at least 1.05 seconds between list calls and honors `Retry-After`.
+[Crossref's July 2026 update](https://community.crossref.org/t/refining-rest-api-limits-for-improved-stability-and-reliability/16137).
 
 ## Key Endpoints
 

@@ -57,6 +57,9 @@ GET /works?search={query}&per_page={n}&page={n}
 | `select` | -- | Comma-separated fields to return |
 | `group_by` | -- | Aggregate by field |
 
+The paginator caps pages at 100. The legacy acceptance of 200 is deprecated;
+see [official paging guidance](https://help.openalex.org/api/paging/).
+
 **Advanced search:** Supports wildcards (`machin*`), fuzzy (`machin~1`), proximity (`"climate change"~5`), boolean grouping.
 
 **Example:**
