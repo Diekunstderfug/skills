@@ -159,17 +159,30 @@ parentheses.
 | `DOI` | DOI | `DOI:"10.1038/nature12373"` |
 | `EXT_ID` | PMID | `EXT_ID:32117569` |
 | `JOURNAL` | Journal title | `JOURNAL:"Nature"` |
-| `MESH` | MeSH term | `MESH:"CRISPR-Cas Systems"` |
+| `KW` | Keywords, including MeSH and publisher-supplied terms | `KW:"Breast Neoplasms"` |
 | `LANG` | Language | `LANG:eng` |
 
 A bare term with no prefix searches title, abstract, and full text together.
+
+**Use `KW:`, not `MESH:`.** The current [indexed fields endpoint](https://www.ebi.ac.uk/europepmc/webservices/rest/fields?format=json)
+contains `KW`/`KEYWORD`, `TITLE`, `ABSTRACT` and `TITLE_ABS`, but no `MESH`.
+`KW` includes MeSH and publisher keywords; it is not PubMed's `[mh]` field or
+its automatic descendant expansion. Retain relevant free-text synonyms.
+An unsupported prefix can produce HTTP 200 and off-topic hits; an echoed query
+alone does not establish that a field was applied. Check field names and a small
+result sample. A 2026-09-22 breast-cancer test exposed this with unrelated mesh
+simulation preprints. The paginator rejects the known unsupported `MESH:` prefix.
+See the [official service reference, keyword field](https://europepmc.org/docs/EBI_Europe_PMC_Web_Service_Reference.pdf).
+
 
 **The pattern that closes the preprint gap:**
 
 ```bash
 curl -s --get "https://www.ebi.ac.uk/europepmc/webservices/rest/search" \
   --data-urlencode 'query=(SRC:"PPR" AND PUBLISHER:"bioRxiv" AND "organoid")' \
-  --data-urlencode 'format=json&pageSize=2&resultType=lite'
+  --data-urlencode 'format=json' \
+  --data-urlencode 'pageSize=2' \
+  --data-urlencode 'resultType=lite'
 ```
 
 `hitCount` 1972, with `bookOrReportDetails.publisher` confirming `bioRxiv` on each hit. Take the

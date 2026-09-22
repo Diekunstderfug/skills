@@ -5,7 +5,7 @@ allowed-tools: Read Bash
 license: MIT
 compatibility: Needs network access and curl. The bundled scripts require Python 3.11+ and use only the standard library. No credentials are required; NCBI_API_KEY, S2_API_KEY, CORE_API_KEY, and OPENALEX_API_KEY raise rate limits or unlock full text where noted.
 metadata:
-  version: "2.2.1"
+  version: "2.2.2"
   skill-author: "K-Dense Inc."
   upstream-repo: "https://github.com/K-Dense-AI/scientific-agent-skills"
   upstream-path: "skills/paper-lookup"
@@ -229,7 +229,9 @@ code. A genuine zero result is `zero_hits`; a caller-set limit is `partial`;
 an unavailable total is `unverified` with `complete: null`; failures preserve
 records and have `complete: false`. Repeated identifiers, changing totals and
 response shapes that remain invalid after bounded retries stop explicitly.
-Preprint versions remain distinct.
+Preprint versions remain distinct. For Europe PMC use `KW:` (MeSH plus publisher
+keywords), not `MESH:`; verify fields and sample relevance. Crossref keyword
+walks default to explicit score ordering unless the caller supplies a sort.
 Buffered records beyond the export limit are retained so resuming cannot skip
 the rest of a page. Saved server cooldowns are respected. An expired Crossref
 cursor cannot be resumed: keep the partial file and start a fresh retrieval.

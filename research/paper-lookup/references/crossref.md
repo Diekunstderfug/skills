@@ -49,6 +49,14 @@ GET /works?query={text}&rows={n}&mailto=you@example.com
 | `facet` | -- | Facet counts, e.g. `type-name:10` |
 | `sample` | -- | Return N random items (max 100) |
 
+For a bounded keyword sample, request `sort=score&order=desc` explicitly. A live
+cursor query in September 2026 returned poorly ranked hits when sort was omitted;
+the paginator now supplies score ordering for `query`/`query.*` unless a sort is
+already specified. Filter-only walks keep the caller's ordering. Crossref's broad
+bibliographic matching is not an equivalent Boolean cohort search: inspect the
+sample and use it for discovery/metadata alongside PubMed, not as a count of
+eligible studies.
+
 **Example:**
 ```
 https://api.crossref.org/works?query=CRISPR+gene+therapy&filter=from-pub-date:2024-01-01,type:journal-article,has-abstract:true&rows=5&sort=published&order=desc&mailto=you@example.com

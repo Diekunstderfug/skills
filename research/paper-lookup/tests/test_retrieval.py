@@ -301,6 +301,25 @@ class ProviderAndTransportTests(unittest.TestCase):
     def test_crossref_uses_conservative_list_pacing(self):
         self.assertGreaterEqual(paginate.APIS['crossref'].delay,1)
 
+    def test_crossref_keyword_sample_requests_relevance_order(self):
+        from urllib.parse import parse_qs, urlsplit
+        q=parse_qs(urlsplit(paginate._crossref_url('query.bibliographic=breast+cancer','*',10)).query)
+        self.assertEqual(q['sort'],['score'])
+        self.assertEqual(q['order'],['desc'])
+
+    def test_crossref_keeps_explicit_order_and_filter_only_walks(self):
+        from urllib.parse import parse_qs, urlsplit
+        q=parse_qs(urlsplit(paginate._crossref_url('query=breast&sort=published&order=asc','*',10)).query)
+        self.assertEqual(q['sort'],['published'])
+        self.assertEqual(q['order'],['asc'])
+        self.assertNotIn('sort=',paginate._crossref_url('filter=prefix:10.1','*',10))
+
+    def test_europepmc_rejects_unknown_mesh_field_but_allows_quoted_text(self):
+        with self.assertRaisesRegex(RuntimeError,'no MESH: field'):
+            paginate.validate_query('europepmc','MESH:"Breast Neoplasms" AND TITLE:young')
+        paginate.validate_query('europepmc','KW:"Breast Neoplasms" AND TITLE:young')
+        paginate.validate_query('europepmc','TITLE:"MESH: a method"')
+
     def test_http_error_does_not_echo_secrets(self):
         url='https://example.invalid/?api_key=TOP_SECRET'
         error=urllib.error.HTTPError(url,429,'limit',{'Retry-After':'9'},io.BytesIO(b'TOP_SECRET'))
@@ -350,6 +369,9 @@ class ProviderAndTransportTests(unittest.TestCase):
         text=(SKILL/'SKILL.md').read_text()
         self.assertNotIn("--data-urlencode 'format=json&pageSize",text)
         self.assertIn("--data-urlencode 'pageSize=10'",text)
+        for path in [SKILL/'SKILL.md', *sorted((SKILL/'references').glob('*.md'))]:
+            with self.subTest(path=path.name):
+                self.assertNotRegex(path.read_text(), r"--data-urlencode\s+['\"][^'\"]*=[^'\"]*&[A-Za-z][A-Za-z0-9_-]*=")
 
 
 if __name__=='__main__':

@@ -32,6 +32,7 @@ import http.client
 import json
 import math
 import os
+import re
 import sys
 import time
 import urllib.error
@@ -48,7 +49,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _common import Reconciliation, emit, fail, redact_url  # noqa: E402
 from _pagination_state import Progress  # noqa: E402
 
-USER_AGENT = "paper-lookup-skill/2.2.1 (+https://github.com/Diekunstderfug/skills)"
+USER_AGENT = "paper-lookup-skill/2.2.2 (+https://github.com/Diekunstderfug/skills)"
 DEFAULT_MAX_RECORDS = 1000
 DEFAULT_MAX_CALLS = 50
 REQUEST_TIMEOUT = 60
@@ -319,6 +320,13 @@ def _openalex_parse(payload: Any, _state: Any) -> Page:
 
 def _crossref_url(query: str, state: Any, limit: int) -> str:
     params = {"rows": str(min(limit, 1000)), "cursor": str(state)}
+    supplied = dict(urllib.parse.parse_qsl(query, keep_blank_values=True))
+    if "sort" not in supplied and any(k == "query" or k.startswith("query.") for k in supplied):
+        # Cursor walks do not reliably inherit relevance ordering. Bounded
+        # keyword samples need an explicit score sort; preserve caller choices.
+        params["sort"] = "score"
+        if "order" not in supplied:
+            params["order"] = "desc"
     mail = os.environ.get("CROSSREF_MAILTO")
     if mail:
         params["mailto"] = mail
@@ -394,6 +402,10 @@ APIS: dict[str, Api] = {
 def validate_query(api: str, query: str) -> None:
     if not isinstance(query, str) or not query.strip():
         raise RuntimeError("query must not be empty")
+    if api == "europepmc":
+        outside_quotes = re.sub(r'"(?:\\.|[^"\\])*"', '""', query)
+        if re.search(r'\bMESH\s*:', outside_quotes, re.IGNORECASE):
+            raise RuntimeError("Europe PMC has no MESH: field; use KW: (MeSH plus publisher keywords) and verify /fields")
     if api in ("openalex", "crossref"):
         if not query.isascii() or any(c.isspace() or ord(c) < 32 for c in query):
             raise RuntimeError("raw query parameters must be URL-encoded")
