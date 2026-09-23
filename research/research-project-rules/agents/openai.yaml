@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Project Rules"
+  short_description: "Project conventions for scientific data analysis"
+  default_prompt: "Use $research-project-rules to initialize or maintain scientific research analysis project layout, inputs, independent scripts, result reuse, and proportionate validation."

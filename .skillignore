@@ -1,7 +1,2 @@
-# Hub default: sync root-level skills. Subdirectories are other SKUs/third-party archives.
-# _vendor is third-party. research is a separate SKU — opt in with .skillignore.local `!research`.
-_vendor
-nature-*
-scientific-agent-skills
-scientific-skills
-research
+# Skills are grouped by purpose and remain discoverable.
+# Add only explicitly retired or disabled skills here.

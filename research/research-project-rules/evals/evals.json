@@ -1,0 +1,82 @@
+{
+  "skill_name": "research-project-rules",
+  "evals": [
+    {
+      "id": 1,
+      "name": "initialize",
+      "prompt": "请在 workspace/sprout_study 初始化这个科研分析项目，研究问题和方法见 brief.md，工作区环境见上一级 ENVIRONMENT.md。请创建可以继续工作的基础目录、README、AGENTS 和必要的依赖说明。数据尚未提供，不要虚构结果；沿用 base R 即可，无需安装包。请直接完成合理的可逆设置。",
+      "expected_output": "A minimal usable research-project layout with truthful project guidance and dependency status, adapted to non-personal data.",
+      "expectations": [
+        "The requested study has scripts, data, and results directories and usable README/AGENTS entry files.",
+        "Project guidance identifies the study question and base-R method without claiming analysis results or installed packages that were not verified.",
+        "Data rules preserve originals and distinguish local computation from disclosure without imposing patient-record restrictions on public non-personal aggregates.",
+        "The existing workspace environment and brief remain unchanged; setup does not invent datasets, results, or unnecessary package installations."
+      ],
+      "files": [
+        "evals/fixtures/initialize/workspace/.here",
+        "evals/fixtures/initialize/workspace/ENVIRONMENT.md",
+        "evals/fixtures/initialize/workspace/sprout_study/brief.md"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "docs_only",
+      "prompt": "stream_study 的结果首页已经移到了 output/report/index.html。请修正 README 和 AGENTS 的入口链接，保留已有目录组织和其他内容，这次只更新文档。",
+      "expected_output": "Only the two requested document links change; inputs, code, existing outputs, and layout remain intact.",
+      "expectations": [
+        "README and AGENTS both point to the existing output/report/index.html entry.",
+        "Only the requested documents change; original inputs, manual notes, scripts, and results retain their bytes.",
+        "No analysis is launched and no parallel default layout or extra report/log is created."
+      ],
+      "files": [
+        "evals/fixtures/docs_only/stream_study/AGENTS.md",
+        "evals/fixtures/docs_only/stream_study/README.md",
+        "evals/fixtures/docs_only/stream_study/analysis/run_all.R",
+        "evals/fixtures/docs_only/stream_study/config/current.json",
+        "evals/fixtures/docs_only/stream_study/inputs/manual_notes.txt",
+        "evals/fixtures/docs_only/stream_study/inputs/summary.csv",
+        "evals/fixtures/docs_only/stream_study/notes/methods.md",
+        "evals/fixtures/docs_only/stream_study/output/report/index.html"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "standalone",
+      "prompt": "signal_study/scripts/02_summary.R 目前要先运行 00_load.R 才能用。请把 02_summary.R 改成依赖清楚、能在干净 R 会话独立执行的入口，既支持 Rscript，也支持 source()。输入和输出列保持原样，继续用 base R，不要通过运行上游脚本来获取对象。脚本应自行找到项目路径，不能要求调用者先切换工作目录。",
+      "expected_output": "The target script reads explicit input and writes the same numerical result from fresh source and Rscript sessions, without running the upstream entry.",
+      "expectations": [
+        "Direct Rscript execution from an unrelated directory produces group means A=5 and B=7 with the declared output schema.",
+        "source() in a fresh R session from an unrelated directory produces the same output.",
+        "The upstream entry is not executed; its code and the source input remain unchanged.",
+        "A missing input produces a useful failure without writing a successful analysis result."
+      ],
+      "files": [
+        "evals/fixtures/standalone/signal_study/.here",
+        "evals/fixtures/standalone/signal_study/README.md",
+        "evals/fixtures/standalone/signal_study/data/summary.csv",
+        "evals/fixtures/standalone/signal_study/scripts/00_load.R",
+        "evals/fixtures/standalone/signal_study/scripts/02_summary.R"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "data_boundary",
+      "prompt": "panel_study 的手工 review 刚有修改。请根据当前配置和已有输入核对结果，判断能不能继续下游分析，给出下一步；不要重建人工表。",
+      "expected_output": "An accurate bounded handoff preserves unconfirmed changes, does not change confirmation state or rerun the pipeline, and exposes no private record content.",
+      "expectations": [
+        "The response recognizes that the review is changed and unconfirmed, and explains the required confirmation before dependent analysis.",
+        "Input, review, configuration, validation state, and analysis files remain unchanged.",
+        "No private record payload appears in the transcript or response.",
+        "No pipeline is run and the response does not claim the clean or downstream analysis was updated."
+      ],
+      "files": [
+        "evals/fixtures/data_boundary/panel_study/AGENTS.md",
+        "evals/fixtures/data_boundary/panel_study/config/current.json",
+        "evals/fixtures/data_boundary/panel_study/data/confirmed_summary.csv",
+        "evals/fixtures/data_boundary/panel_study/data/review.csv",
+        "evals/fixtures/data_boundary/panel_study/results/input_validation.json",
+        "evals/fixtures/data_boundary/panel_study/scripts/run_all.R"
+      ]
+    }
+  ]
+}

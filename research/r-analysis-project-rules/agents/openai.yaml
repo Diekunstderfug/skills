@@ -1,4 +1,0 @@
-interface:
-  display_name: "R Analysis Project Rules"
-  short_description: "Rules for path-safe R analysis projects"
-  default_prompt: "Use $r-analysis-project-rules to edit or create R analysis scripts with project-safe paths, outputs, helpers, and validation."

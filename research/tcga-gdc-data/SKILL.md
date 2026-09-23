@@ -99,7 +99,7 @@ cat manifests/downloads/gdc-tcga-brca/download_status.tsv
 Use the bundled audit helper for registry/documentation checks:
 
 ```bash
-python3 /root/.codex/skills/tcga-gdc-data/scripts/audit_public_data_registry.py /path/to/public_data
+python3 /root/.codex/skills/research__tcga-gdc-data/scripts/audit_public_data_registry.py /path/to/public_data
 ```
 
 If running from a staging copy of the skill, replace the script path with the

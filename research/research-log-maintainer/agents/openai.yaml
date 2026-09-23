@@ -1,4 +1,5 @@
 interface:
   display_name: "Research Log Maintainer"
   short_description: "Persist conclusions, decisions, and reusable assets"
-  default_prompt: "使用 $research-log-maintainer 更新项目研究日志；默认用中文总结研究结论、关键决定、可复用原则和资产，并验证记录的资产路径。涉及多个日志时，主 agent 先向较低成本子 agent 提供统一事实与上下文，再让其按文件并行起草；最后由主 agent 统一复核、整合并验证。"
+  default_prompt: "使用 $research-log-maintainer 按已验证证据维护研究文档：代理入口保留研究问题、主要方法技术和关键约束，详细记录按需写入\
+    \ docs，并核验状态与链接。"

@@ -2,6 +2,20 @@
 
 个人维护的 skills 仓库。模块结构相关能力既可独立使用，也可通过 `module-structure` 组合使用。
 
+## 技能分类与使用
+
+按用途分类存放；具体调用由客户端根据任务和技能描述选择。各客户端的分发范围遵循 Skillshare targets 配置，技能自身的工具适用范围保持不变。
+
+- `development/`：`cohesion-locality`、`modularity-review`、`module-structure`、`sync-project-docs`
+- `research/`：`gse-data`、`tcga-gdc-data`、`systematic-search-strategy`、`paper-lookup`、`literature-review`、`scientific-visualization`、`figure-review`、`research-project-rules`、`same-method-new-cohort`、`research-log-maintainer`、`parallel-bioinformatics-development`
+- `documents/`：`docx`、`pdf`
+- `knowledge/`：`wiki-maintenance`、`youdaonote-llm-wiki`
+- `tooling/`：`find-skills`、`skillshare`
+
+文献检索相关技能同属 `research/`：[systematic-search-strategy](research/systematic-search-strategy/SKILL.md) 负责 MeSH、关键词树、检索式与进度记录；[paper-lookup](research/paper-lookup/SKILL.md) 提供学术数据库调用方法；[literature-review](research/literature-review/SKILL.md) 负责综述流程与证据综合。
+
+源目录保留分类；merge 同步后目标使用 `分类__技能名` 软链接。仅明确停用的技能进入 `.skillignore`。插件及客户端内置技能继续由各自系统管理。
+
 ## Paper Lookup
 
 [paper-lookup](research/paper-lookup/SKILL.md) 提供 18 个学术 API 的调用说明及检索辅助脚本，存放于 `research/paper-lookup/`，由本仓库维护。上游仓库、路径和基准 commit 保留在 skill 的 metadata 中，更新采用审查后选择性合并。上游 MIT 许可证保留于 [LICENSE.md](research/paper-lookup/LICENSE.md)。
@@ -12,9 +26,9 @@
 
 | 目录 | 职责 | 使用方式 |
 | --- | --- | --- |
-| [`cohesion-locality/`](cohesion-locality/SKILL.md) | 设计新代码的职责与归属，也审查既有代码的拆分、合并或保持完整；依据内聚性、变化原因和局部性作决定。 | 可以独立使用，回答“哪些代码应该放一起”。 |
-| [`modularity-review/`](modularity-review/SKILL.md) | 优化公开接口、信息隐藏、依赖和测试边界，按用户要求审查、设计或实现。 | 可以独立使用，处理接口与结构复杂度。 |
-| [`module-structure/`](module-structure/SKILL.md) | 选择分析起点，说明何时组合两个 skill；不管理各 skill 的工作流程。 | 不确定该用哪个，或任务需要两种视角时使用。 |
+| [`cohesion-locality/`](development/cohesion-locality/SKILL.md) | 设计新代码的职责与归属，也审查既有代码的拆分、合并或保持完整；依据内聚性、变化原因和局部性作决定。 | 可以独立使用，回答“哪些代码应该放一起”。 |
+| [`modularity-review/`](development/modularity-review/SKILL.md) | 优化公开接口、信息隐藏、依赖和测试边界，按用户要求审查、设计或实现。 | 可以独立使用，处理接口与结构复杂度。 |
+| [`module-structure/`](development/module-structure/SKILL.md) | 选择分析起点，说明何时组合两个 skill；不管理各 skill 的工作流程。 | 不确定该用哪个，或任务需要两种视角时使用。 |
 
 这里的“组合调用”由同一 main agent 按需使用对应 skill，不要求每次把两个 skill 都执行一遍。审查可按责任范围并行分派 subagent，main 核验证据并汇总；设计仍由当前 agent 完整运用原则。
 
@@ -46,19 +60,19 @@ Main 先读取项目根与目标目录适用的 `AGENTS.md`、相关架构/ADR �
 
 按责任范围、共享合同与风险决定是否分派，不以行数或固定人数作为门槛。每位 reviewer 完整读取所用技能的原则，独立检查分配区域，并可沿调用和数据关系读取邻接代码。main 负责核验证据、处理分歧和语义去重，补查跨区状态、事务、生命周期与依赖；失败或未覆盖区域显式说明。审查期间不自动修改代码，也不按发现数量打质量分。
 
-组合审查只保留一个 main，reviewer 不递归分派。具体流程由各技能自己的审查参考承接：内聚判断见[并行审查](cohesion-locality/references/review-checklist.md#parallel-review)，接口与依赖见[并行审查](modularity-review/references/review-report.md#parallel-review)。独立安装时不依赖组合入口或共享协议文件。
+组合审查只保留一个 main，reviewer 不递归分派。具体流程由各技能自己的审查参考承接：内聚判断见[并行审查](development/cohesion-locality/references/review-checklist.md#parallel-review)，接口与依赖见[并行审查](development/modularity-review/references/review-report.md#parallel-review)。独立安装时不依赖组合入口或共享协议文件。
 
 ## 维护与验证
 
-选择与组合规则维护在 `module-structure`，边界判断与结论维护在 `cohesion-locality`，边界结论的使用、公开接口分析与模式维护在 `modularity-review`。各入口保留独立使用所需的任务范围约束，不新增共享协议文件。修改职责或组合规则时，核对三个入口的选择条件、结论交付与使用方式及范围约束是否一致。修改后运行[回归检查](module-structure/evals/README.md)，分别报告数据一致性检查与真实 agent 行为回归。回归需要覆盖独立完成、直接组合、经入口选择、任务范围保持和缺少可选 skill 的情况。
+选择与组合规则维护在 `module-structure`，边界判断与结论维护在 `cohesion-locality`，边界结论的使用、公开接口分析与模式维护在 `modularity-review`。各入口保留独立使用所需的任务范围约束，不新增共享协议文件。修改职责或组合规则时，核对三个入口的选择条件、结论交付与使用方式及范围约束是否一致。修改后运行[回归检查](development/module-structure/evals/README.md)，分别报告数据一致性检查与真实 agent 行为回归。回归需要覆盖独立完成、直接组合、经入口选择、任务范围保持和缺少可选 skill 的情况。
 
-`modularity-review` 的来源和 full fork 说明见[来源记录](modularity-review/README.md)，许可证见 [LICENSE](modularity-review/LICENSE)。
+`modularity-review` 的来源和 full fork 说明见[来源记录](development/modularity-review/README.md)，许可证见 [LICENSE](development/modularity-review/LICENSE)。
 
 ## 指令设计原则
 
 以原则和可调整的默认方法引导 agent，而不是要求每次走固定流程、填满报告字段或达到设计方案数量。允许提出假设、反证和探索性方案，结论中区分事实、推断与探索建议。硬约束集中在用户授权、安全与行为契约、适用的项目硬规则，以及证据和验证结果的真实性。
 
-内聚判断的代码案例及评估方式见 [cohesion-locality/evals](cohesion-locality/evals/README.md)，用于检查误报、漏报、证据质量和探索空间；不按措辞或固定文件布局判分。
+内聚判断的代码案例及评估方式见 [cohesion-locality/evals](development/cohesion-locality/evals/README.md)，用于检查误报、漏报、证据质量和探索空间；不按措辞或固定文件布局判分。
 
 ## Skill 内部的按需加载
 

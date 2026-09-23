@@ -1,0 +1,50 @@
+[
+  {
+    "query": "初始化一个科研数据分析项目：整理脚本、输入、结果入口和依赖，数据是公开的环境监测汇总。",
+    "should_trigger": true
+  },
+  {
+    "query": "接手一个已有 R 研究项目，补齐项目说明和数据访问边界，保留原布局。",
+    "should_trigger": true
+  },
+  {
+    "query": "让科研分析脚本摆脱工作区残留对象，明确输入输出并能独立启动。",
+    "should_trigger": true
+  },
+  {
+    "query": "科研项目准备换输入文件，先理清当前来源和手工修订的处理约定。",
+    "should_trigger": true
+  },
+  {
+    "query": "给研究项目新增共享环境下的子课题，配置运行入口和目录。",
+    "should_trigger": true
+  },
+  {
+    "query": "修科研结果首页的路径引用，保持分析与输入不变。",
+    "should_trigger": true
+  },
+  {
+    "query": "给电商网站的登录页面增加重置密码按钮。",
+    "should_trigger": false
+  },
+  {
+    "query": "整理我的下载文件夹，把照片按月份归档。",
+    "should_trigger": false
+  },
+  {
+    "query": "解释 Cox 模型的比例风险假设。",
+    "should_trigger": false
+  },
+  {
+    "query": "审查论文的统计方法是否支持因果结论。",
+    "should_trigger": false
+  },
+  {
+    "query": "美化一个单独的演讲图表，不涉及分析项目。",
+    "should_trigger": false
+  },
+  {
+    "query": "发布一个通用 R 包的新版本，检查导出函数文档。",
+    "should_trigger": false
+  }
+]

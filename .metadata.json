@@ -1,21 +1,10 @@
 {
   "version": 1,
   "entries": {
-    "K-Dense-AI/scientific-agent-skills/_scientific-visualization": {
-      "source": "https://github.com/K-Dense-AI/scientific-agent-skills.git",
-      "tracked": true,
-      "group": "K-Dense-AI/scientific-agent-skills",
-      "branch": "main"
-    },
-    "_nature-skills": {
-      "source": "https://github.com/Yuan1z0825/nature-skills.git",
-      "tracked": true,
-      "branch": "main"
-    },
-    "_vendor/docx": {
+    "documents/docx": {
       "source": "https://github.com/anthropics/skills.git/skills/docx",
       "type": "github-subdir",
-      "group": "_vendor",
+      "group": "documents",
       "installed_at": "2026-07-18T14:49:04.198571445+08:00",
       "repo_url": "https://github.com/anthropics/skills.git",
       "subdir": "skills/docx",
@@ -85,10 +74,10 @@
         "scripts/templates/people.xml": "sha256:056f63aa1197fd8c9dda980c9f1b9ff016fd5fa4a462df8aec5f384f39d23e37"
       }
     },
-    "_vendor/pdf": {
+    "documents/pdf": {
       "source": "https://github.com/anthropics/skills.git/skills/pdf",
       "type": "github-subdir",
-      "group": "_vendor",
+      "group": "documents",
       "installed_at": "2026-07-18T14:49:04.246068021+08:00",
       "repo_url": "https://github.com/anthropics/skills.git",
       "subdir": "skills/pdf",
@@ -107,6 +96,20 @@
         "scripts/extract_form_structure.py": "sha256:6814e3fe8f78c2b16d766c132b5a727ff7a31b71d76a7d46bd6e40fe50bc97c5",
         "scripts/fill_fillable_fields.py": "sha256:d140872c2e92e41b1e05370ae8d270c5b7f5ebdf55d9905f03bc974a9c708ff5",
         "scripts/fill_pdf_form_with_annotations.py": "sha256:8a56e063a49ed53c0b0e1d312ecf8023af76816ed139486ec3b539873de202fd"
+      }
+    },
+    "research/figure-review": {
+      "source": "github.com/skymanbp/sci-paper/skills/figure-review",
+      "type": "github-subdir",
+      "group": "research",
+      "installed_at": "2026-09-22T02:04:25.010780892+08:00",
+      "repo_url": "https://github.com/skymanbp/sci-paper.git",
+      "subdir": "skills/figure-review",
+      "version": "6107991",
+      "tree_hash": "d30a1d3c869cb328372004048730ed5c0157f869",
+      "commit": "61079914d4757750be106b858ef578aa00e4020a",
+      "file_hashes": {
+        "SKILL.md": "sha256:0445068e064959e9488e2dfbab415e3f480a54f604519bba69d433dadf4ff88c"
       }
     },
     "research/gse-data": {
@@ -170,9 +173,10 @@
         "scripts/audit_public_data_registry.py": "sha256:ded5f2d1aa1d5d73094d85762fe5c871a7c4dcde01134929d96c069018707847"
       }
     },
-    "find-skills": {
+    "tooling/find-skills": {
       "source": "https://github.com/vercel-labs/skills.git/skills/find-skills",
       "type": "github-subdir",
+      "group": "tooling",
       "installed_at": "2026-07-18T14:49:07.588198678+08:00",
       "repo_url": "https://github.com/vercel-labs/skills.git",
       "subdir": "skills/find-skills",
@@ -182,9 +186,10 @@
         "SKILL.md": "sha256:c00eeea0e13e74fe4a9d84ba0a8542205a1b736d65f13134fe1a6647eb14976f"
       }
     },
-    "skillshare": {
+    "tooling/skillshare": {
       "source": "github.com/runkids/skillshare/skills/skillshare",
       "type": "github-subdir",
+      "group": "tooling",
       "installed_at": "2026-09-03T14:47:01.847210195+08:00",
       "repo_url": "https://github.com/runkids/skillshare.git",
       "subdir": "skills/skillshare",

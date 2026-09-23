@@ -1,138 +1,62 @@
 ---
 name: research-log-maintainer
-description: Use when finishing or reviewing bioinformatics or research work that produced durable conclusions, decisions, pitfalls, reusable principles, reusable scripts or contracts, validation gates, or reproducibility-relevant changes.
+description: Use when preserving verified research findings, method or data-contract changes, or updating research handoff documentation (README, AGENTS.md, docs). Skip routine edits and queries that add no durable project knowledge.
 ---
 
 # Research Log Maintainer
 
-Promote useful conclusions and assets from chat or terminal output into durable project notes.
-Do not turn the logs into a command transcript.
+Keep research context recoverable from project files so a new agent can continue without prior chat or personal memory. Preserve useful knowledge with the smallest relevant documentation change.
 
-## Workflow
+## Scope and evidence
 
-1. Identify the target log files before editing.
-   - Read the project-level `AGENTS.md` or equivalent first and derive the allowed root-document set from its documentation contract.
-   - Prefer existing `INSIGHTS.md`, `CHANGELOG.md`, `DECISION_LOG.md`, and `README.md` for their defined project-record roles.
-   - Every bioinformatics or research analysis subproject must have its own `INSIGHTS.md` and `CHANGELOG.md`. Create either file when it is missing before writing root-level summaries.
-   - For subprojects, update the subproject-local `INSIGHTS.md` and `CHANGELOG.md` first, then the root project summary if the finding changes the project-level interpretation.
-   - Treat root `INSIGHTS.md` as a cross-subproject synthesis surface, not a replacement for subproject-local conclusions.
-   - Use root `DECISION_LOG.md` for cross-task decisions, reusable failure modes, and assets. Do not create one in every subproject unless local instructions require it.
-   - If `DECISION_LOG.md` is absent, create it only when the task produced a durable decision, reusable lesson, or reusable asset.
-   - Put long-form research reasoning, method notes, terminology reviews, literature evidence, and report-design notes under `docs/<domain>/` or the project's existing documentation directory. Register each maintained topic document in the documentation index, normally `docs/README.md`.
-   - Create a root-level `RESEARCH_NOTE.md` or `RESEARCH_NOTES.md` only when the local project contract explicitly names it as a root document. Otherwise use a descriptive topic path under `docs/`.
+Read the applicable project instructions and existing documentation entry points, then inspect only the evidence needed for this update. Follow explicit user choices and local documentation contracts. Do not infer scientific results from a task title, proposed plan, remembered conversation, or code that has not run.
 
-2. Coordinate independent multi-log updates in parallel when useful.
-   - When a single task needs updates to two or more independent log files, prefer lower-cost subagents working in parallel with one agent assigned to each file.
-   - Typical file ownership is: `INSIGHTS.md` for scientific conclusions, `CHANGELOG.md` for reproducibility changes, and `DECISION_LOG.md` for durable decisions and reusable assets.
-   - The main agent must first provide every writer one shared context package: task scope, sample/data conventions, verified facts, conclusions permitted for writing, file responsibilities, prohibited content, and canonical asset paths. Subagents must not independently expand the investigation.
-   - The main agent must define the update boundaries, integrate the results, remove duplication, and finally recheck facts, cross-log consistency, and the existence of every recorded path.
-   - Never let multiple agents edit the same file in parallel.
-   - Do not parallelize merely for form: use a single writer for a small update or when only one log file needs changes.
-   - Patient-data safeguards still apply during parallel work: only aggregate information may be recorded; never expose patient-level data or identifiers.
+Use this workflow for substantive findings, decisions, reproducibility changes, or requested documentation maintenance. A routine code edit, unchanged rerun, or factual question does not automatically require a log entry. If nothing durable changed, leave documentation alone.
 
-3. Separate file responsibilities.
-   - `INSIGHTS.md`: only the current stable research conclusions, durable
-     methodological principles, interpretation boundaries, and the few caveats or
-     next analyses needed to apply those conclusions correctly.
-   - `CHANGELOG.md`: all dated experiment/run history, tested alternatives,
-     quantitative result details, negative or superseded routes, data contracts,
-     scripts, model definitions, analysis scope, output structure, reusable asset
-     paths, and rerun status.
-   - When publication-compatible presentation collapses or relabels cleaned categories, record the source, exact display mapping, affected outputs, and that the cleaned-data categories remain intact. Treat a true cleaned-data recode as a separate data-contract change.
-   - Do not use `INSIGHTS.md` as a chronological evidence ledger. Do not put dated
-     run-by-run sections, long metric tables, script inventories, output manifests,
-     or reusable-asset catalogs there. Move those details to `CHANGELOG.md`.
-   - A metric may remain in `INSIGHTS.md` only when one compact anchor is necessary
-     to define or bound a durable conclusion. Put the full comparison in
-     `CHANGELOG.md` and link to it instead of duplicating it.
-   - `DECISION_LOG.md`: lightweight ADR records explaining the task context, decision, consequences, lessons, and reusable assets.
-   - `docs/<domain>/<topic>.md` or the project-specified equivalent: dated narrative notes for work-in-progress reasoning, decision history, method review, and evidence synthesis that is longer than `INSIGHTS.md`.
-   - `README.md`: current entry points, input/output locations, how to rerun, and high-level scope.
-   - Root Markdown is the project interface. Keep it limited to the files named by the local contract; topic notes belong behind the documentation index.
+Memory can help locate prior work, but project files and verified artifacts are the durable source of truth. Resolve stale recollections against current evidence; do not rely on memory availability or write generated memory files as part of this workflow.
 
-   Required subproject minimum:
-   - `INSIGHTS.md` records current scientific conclusions, interpretation boundaries, and next analyses.
-   - `CHANGELOG.md` records reproducibility-relevant changes to scripts, data contracts, analysis scope, outputs, or decisions that change rerun behavior.
+## Documentation layout
 
-4. Write evidence-backed conclusions, not command logs.
-   - In `CHANGELOG.md`, include sample counts, tested feature counts, thresholds,
-     model formulae, key metrics, and output paths needed to reproduce or audit the
-     run.
-   - In `INSIGHTS.md`, compress that evidence into the minimum statement needed to
-     support the stable conclusion; omit operational paths and run inventories.
-   - State whether evidence is strong, weak, negative, exploratory, method-sensitive, or blocked by missing data.
-   - Record missingness and classification coverage when downstream interpretation depends on labels.
+- Root `README.md` is the main human-facing entry: research purpose, current scope, working entry points, and links to supporting material.
+- `AGENTS.md`, `CLAUDE.md`, and equivalents are the agent's research overview, essential working guidance, and index; see the content principles below.
+- Supporting conclusions, run history, decisions, and method notes belong under `docs/` or the explicit project equivalent. Reuse existing topic files; create only documents with substantive content.
+- Separate `docs/INSIGHTS.md`, `docs/CHANGELOG.md`, and `docs/DECISION_LOG.md` only when their different responsibilities justify separate maintenance. Small projects may use sections of one note. Do not require a standard file set per subproject.
+- Subproject notes can live in `docs/<subproject>/`, or a standalone subproject's own `docs/`. Root README may link directly to a small collection; add `docs/README.md` only when a separate index helps navigation.
+- Preserve required root files, licenses, and tool configuration. A log update does not authorize broad document migration. When reorganization is requested, preserve content and update inbound links and script references without leaving duplicate maintained copies.
 
-5. Preserve interpretation boundaries.
-   - Distinguish biology from technical/data-contract limitations.
-   - Do not overstate exploratory DE, enrichment, classifier, or module results.
-   - Make negative results useful: say what the analysis does not support and what follow-up would be needed to overturn it.
+## Agent entry: research overview plus index
 
-6. Automatically summarize reusable assets before finishing every applicable task.
-   - Review the full task, not only the last command or file changed.
-   - Extract only assets that exist on disk or stable principles supported by the work.
-   - Check these categories:
-     - reusable principles and failure modes;
-     - runnable entry scripts, functions, and analysis modules;
-     - machine-readable contracts, configs, manifests, and frozen feature definitions;
-     - validation gates, tests, QA tables, leakage audits, and resource-budget audits;
-     - canonical frozen outputs, templates, or reports, including important usage caveats.
-   - Record project-relative paths whenever possible. Prefer one canonical path over a list of transient intermediates.
-   - Never include raw patient-level data, identifiers, secrets, temporary files, cache internals, or invalidated results.
-   - If no reusable asset was created or changed, do not add an empty `Reusable assets` section.
+A fresh agent should understand what the project studies and how to work on it without reconstructing the project from logs. Keep a brief, verified overview covering the information relevant to that project:
 
-7. Write or update a lightweight decision record when warranted.
-   - Use newest-first order.
-   - Prefer this shape and omit empty sections:
+- Research question or objective, study objects/cohort or data types, and the main outcome or intended deliverable.
+- Main study design, analytical methods, and essential technologies/languages/pipelines. Distinguish methods actually used from proposed future analyses; avoid a package inventory.
+- Current research stage and the few confirmed conclusions or unresolved limitations that affect the next task. Include status only when verified and useful; point to the maintained detailed status record.
+- Canonical input configuration, runnable entry points, results entry, and documentation links labelled with when to read them.
+- Critical data-access, safety, and execution boundaries kept explicit in the entry file, even when detailed explanation lives elsewhere.
 
-     ```markdown
-     ## YYYY-MM-DD — Decision title
+Use concise prose or a few bullets, not a mandatory template or arbitrary line limit. Keep enough subject context to orient a new agent; an index alone is insufficient. If purpose or method is uncertain, mark the gap or ask only what is needed rather than inventing it.
 
-     ### Task
-     ### Context
-     ### Decision
-     ### Consequences
-     ### Lessons
-     ### Reusable assets
-     ```
+A short overview in README and agent instructions is intentional orientation, not a second full research report. Detailed evidence and history have one canonical home. Replace obsolete guidance instead of appending dated task summaries. Do not require every linked file to be read on every task or create multiple agent files just to repeat content.
 
-   - Keep each section concise, normally 1–5 bullets.
-   - Link or point to `INSIGHTS.md` and `CHANGELOG.md` rather than duplicating long scientific conclusions or release details.
-   - Update an existing entry when the same decision evolves; add a new entry only for a distinct decision boundary.
+## Update only the affected knowledge
 
-8. Keep edits small and current.
-   - Add concise entries near the top or in the most relevant existing section.
-   - Keep `INSIGHTS.md` synthesis-oriented rather than append-only. When new evidence
-     changes the current stance, update or replace the relevant conclusion instead
-     of adding another dated section.
-   - Keep `CHANGELOG.md` newest-first and append-only except for factual corrections.
-   - When cleaning an oversized legacy `INSIGHTS.md`, move dated experimental detail
-     to `CHANGELOG.md`; if the same facts are already present there, remove the
-     duplicate from `INSIGHTS.md` without copying it again.
-   - Do not paste raw sample-level rows or raw matrices into logs. Use aggregate counts, dimensions, and file paths.
+1. **Identify the durable change.** Check whether the task changed research interpretation, a method/data contract, execution status, a reusable asset, or onboarding guidance. Use existing outputs and targeted read-only checks; documentation work does not itself justify rerunning analysis.
+2. **Choose its canonical home.** Current conclusions belong in a synthesis note; dated run evidence and reproducibility changes in a history note; durable choices and rationale in a decision/method note. Update README or agent entry only when their overview, important constraints, or navigation changed.
+3. **Write the smallest useful update.** State the conclusion, supporting evidence, and interpretation boundary. Link to detailed comparisons or canonical assets instead of copying tables and inventories. Record only real assets that changed; skip empty sections.
+4. **Verify and stop.** Check changed claims against evidence, ensure links resolve relative to the containing document, confirm current conclusions agree across entry points, and report what changed and what remains unverified. Do not reopen the research task to fill a documentation template.
 
-## Completion check
+Read [research-log-patterns.md](references/research-log-patterns.md) when separating a large legacy log, recording a substantial method change, or choosing a conclusion/decision format. Small updates need no template.
 
-Before reporting a research task complete:
+## Scientific and privacy boundaries
 
-1. Decide whether `INSIGHTS.md` needs a scientific conclusion update.
-2. Decide whether `CHANGELOG.md` needs a reproducibility update.
-3. Summarize reusable principles and assets into `DECISION_LOG.md` when warranted.
-4. Verify every recorded asset path exists and every caveat still matches the current result.
-5. Confirm no invalid, superseded, temporary, or patient-level artifact was promoted.
-6. Confirm every new or updated topic note is in the permitted documentation directory, is reachable from its index, and did not expand the root Markdown surface outside the local contract.
+- Distinguish a confirmed rule, edited code, updated data, executed analysis, and validated result. Record input/configuration versions or run dates when needed to identify the evidence; do not label old outputs as recomputed.
+- Keep stable insights separate from run-by-run history. Preserve superseded evidence as labelled history when it matters for audit, while replacing obsolete current conclusions.
+- State evidence strength, missingness/coverage when relevant, and whether a result is exploratory, negative, method-sensitive, or limited by data. Separate biological interpretation from technical limitations.
+- Record model definitions, thresholds, scope, and output paths only to the extent needed to reproduce or interpret the change. Display relabeling is distinct from a cleaned-data recode; preserve the exact mapping and affected outputs when relevant.
+- Never put patient-level rows, identifiers, raw matrices, secrets, or disallowed source text into documentation, logs, or agent context. Use permitted aggregate evidence and canonical paths, following project-specific access limits.
 
-## Style
+## Collaboration and style
 
-- 默认使用中文撰写项目日志；代码符号、文件名、字段名、模型名和无可靠中文译名的
-  专业术语保留英文。
-- 如果项目已有明确语言规范，则服从项目规范；中英混排时保持同一术语前后一致。
-- Use direct research language: conclusion first, evidence second, caveat third.
-- Prefer bullets for reusable facts and short paragraphs for interpretation.
-- Use exact thresholds and dates when the conclusion depends on them.
-- Use terms like `exploratory`, `method-sensitive`, `negative evidence`, and `interpretation boundary` when appropriate.
-- Describe why a decision was made and what can be reused; do not narrate every command.
+Use one writer for ordinary updates. File count alone is not a reason to delegate. If a large update has independently useful work and delegation is authorized, give writers the same verified facts and disjoint file ownership; integrate and check consistency once. Do not prescribe a model or cost tier.
 
-## Reference
-
-Read `references/research-log-patterns.md` when choosing how to structure a larger update or when adapting patterns from BRCAness-style projects.
+默认用中文维护研究文档；项目已有语言约定时服从约定。保留代码符号、文件名和必要专业术语。使用直接的研究语言，避免命令流水账、重复总结和为填模板而新增内容。

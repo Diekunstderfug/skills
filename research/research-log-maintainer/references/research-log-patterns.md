@@ -1,102 +1,46 @@
-# Research Log Patterns
+# Research Documentation Patterns
 
-## Durable Insight Pattern
+Use only the pattern needed for the update. Paths below illustrate responsibilities, not mandatory filenames or a requirement to split a small note.
 
-Use this when an analysis changes how future work should be interpreted.
+## Current conclusions
 
-Each bioinformatics or research analysis subproject needs its own `INSIGHTS.md` and `CHANGELOG.md`. Put local conclusions, thresholds, caveats, and negative results in `INSIGHTS.md` first, and record reproducibility-relevant scope or workflow changes in the local `CHANGELOG.md`. Use root `INSIGHTS.md` only for conclusions that should guide more than one subproject.
+A synthesis note such as `docs/INSIGHTS.md` answers what the evidence currently supports:
 
-`INSIGHTS.md` is a current synthesis, not a dated experiment ledger. Retain only
-stable conclusions, important methodological principles, interpretation boundaries,
-and concise next analyses. Put detailed thresholds, metrics, tested alternatives,
-negative/superseded runs, scripts, output paths, and reusable assets in
-`CHANGELOG.md`.
+- Current conclusion and the minimal quantitative anchor needed to interpret it.
+- Evidence pointer to the dated run record or maintained result.
+- Interpretation boundary, relevant uncertainty, and any next analysis that could change the conclusion.
 
-```markdown
-## Topic Name
+Keep long metric tables, tested alternatives, script inventories, and superseded runs in the evidence/history record. When cleaning a legacy log, move needed historical detail once, avoid duplication, and update relative links. A negative finding should say what is unsupported, for which scope and threshold, and what would justify reconsidering it.
 
-- Current conclusion: ...
-- Evidence: ...
-- Interpretation boundary: ...
-- Recommended next step: ...
-```
+## Reproducibility history
 
-Keep `Evidence` to one short anchor when it is essential. Link to the relevant
-`CHANGELOG.md` entry for the full quantitative comparison.
+A history note such as `docs/CHANGELOG.md` records substantive dated changes and the evidence needed to audit them. Include the affected method, input/configuration contract, actual execution and validation status, key aggregate results, and canonical output paths as relevant.
 
-Good uses:
-- A DE result shows weak or absent transcriptome separation.
-- A module is better interpreted as a downstream phenotype than a causal repair module.
-- A classifier works as a ranking signal but fails calibration.
-- A label is missing or incomplete and must be regenerated before analysis.
+For example, a changed filter needs its exact definition, affected analysis scope, and whether dependent outputs were actually rerun. A code change with old outputs remains a pending rerun, not a new scientific result. Repeating an unchanged run does not require another entry unless it supplies important new validation evidence.
 
-Do not use it for:
-- one section per run or per date;
-- model-size ladders and full metric tables;
-- script/output inventories;
-- reusable asset catalogs;
-- superseded candidates whose only value is audit history.
+Keep history newest-first where that matches the existing convention; preserve prior evidence and correct factual errors. Update current conclusions separately when interpretation changes.
 
-## Negative Result Pattern
+## Decisions and methods
 
-Negative results are useful when they narrow the research path.
+Use an existing decision or method note under `docs/` when the reasoning is useful beyond the immediate task. A compact record may contain:
 
-```markdown
-- Current result does not support ...
-- Evidence: ...
-- This should not be interpreted as ...
-- Follow-up needed to revisit this conclusion: ...
-```
+- Question/context and the choice made.
+- Evidence, alternatives, and the reason the choice matters.
+- Consequences, limitations, and conditions for revisiting it.
+- Links to reusable assets or validation evidence that actually exist.
 
-Avoid writing only "no significant results." Include the threshold, sample scope, and why the result changes the next decision.
+Omit empty elements. Revise the same evolving decision rather than creating a new document or entry for every conversation. Detailed methods and literature synthesis can use descriptive paths such as `docs/methods/endpoint-definition.md`.
 
-## Changelog Pattern
+## Research orientation and navigation
 
-Use `CHANGELOG.md` for reproducible project-state changes and the dated experimental
-evidence needed to audit them.
+Root README is the human entry; agent instructions provide enough orientation to start safely without prior conversation. The core skill defines what to retain in that overview. For an agent-facing link, explain its relevance: "When changing endpoint definitions, read `docs/methods/endpoints.md`." Use actual verified paths and resolve them relative to the containing file.
 
-```markdown
-## Unreleased
+Do not invent research context from repository names. If the methods or stage cannot be verified, make the uncertainty visible instead of converting a remembered plan into a completed analysis. Keep detailed status in its canonical record, with only decision-relevant status in the entry document.
 
-- Changed expression filter to `counts > 10` in at least 30% of selected samples and reran edgeR/DESeq2 outputs.
-- Added domain-vs-non-domain classification audit derived from BRCA functional region coordinates.
-- Compared frozen 80/110/150-gene panels across the predefined endpoints; record
-  the complete metric deltas, negative results, scripts, and canonical output paths.
-```
+## Design references
 
-Write what changed, what was tested, the quantitative result, and why it affects
-future reruns. Keep only the durable scientific or methodological interpretation in
-`INSIGHTS.md`.
+Consult these when revising the skill itself, not during each research-log update:
 
-## Research Note Pattern
-
-Use `RESEARCH_NOTE.md` or `RESEARCH_NOTES.md` when the reasoning is too detailed for `INSIGHTS.md`.
-
-```markdown
-## YYYY-MM-DD - Short Topic
-
-Question:
-...
-
-Current evidence:
-...
-
-Decision:
-...
-
-Open caveats:
-...
-```
-
-Use this for multi-step synthesis, competing interpretations, and handoff notes across sessions.
-
-## README Pattern
-
-Use `README.md` for navigation and rerun contracts:
-- analysis scope
-- input file paths
-- script entry points
-- output directories
-- current status of the latest run
-
-Do not put long biological arguments in README.
+- [Agent Skills authoring practices](https://agentskills.io/skill-creation/best-practices): focused instructions and conditional reference loading.
+- [OpenAI skill guidance](https://learn.chatgpt.com/docs/build-skills): explicit scope, inputs/outputs, and trigger checks.
+- [Codex memories](https://learn.chatgpt.com/docs/customization/memories): memory supplements durable project guidance.
